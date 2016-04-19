@@ -1,4 +1,5 @@
 #Rodrigo Demo file to work alone
+
 import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
@@ -10,6 +11,7 @@ else:
     # sc is an existing SparkContext.
     from pyspark import SparkContext
     from pyspark.sql import SQLContext
+    import json
 
     sc=SparkContext()
     sqlContext = SQLContext(sc)
@@ -38,18 +40,9 @@ else:
     # |    |    |-- streetNumber: string (nullable = true)
     # |    |    |-- type: string (nullable = true)
     # |-- updateTime: long (nullable = true)
-
-
-    '''
-    # Register this SchemaRDD as a table.
+    # Register this DataFrame as a table.
     data.registerTempTable("data")
 
-    # SQL statements can be run by using the sql methods provided by sqlContext.
-    teenagers = sqlContext.sql("SELECT name FROM people WHERE age >= 13 AND age <= 19")
-    '''
-
-    # Alternatively, a SchemaRDD can be created for a JSON dataset represented by
-    # an RDD[String] storing one JSON object per string.
-    anotherPeopleRDD = sc.parallelize([
-      '{"name":"Yin","address":{"city":"Columbus","state":"Ohio"}}'])
-    anotherPeople = sqlContext.jsonRDD(anotherPeopleRDD)
+    # SQL statements can be run by using the sql methods provided by `sqlContext`.
+    filterdata = sqlContext.sql("SELECT stations.id, stations.latitude, stations.longitude, stations.bikes,"
+                                " stations.slots, stations.status, stations.type updateTime FROM data ORDER BY stations.id ")
