@@ -31,7 +31,9 @@ for i in xrange(10):
 
 f = open("Process_Data/data_python.txt", 'w+')
 
-for i in xrange(len(data)):
+#f.write(data["updateTime"])
+for i in xrange(len(data["stations"])):
+
 
     f.write(data["stations"][i]["id"])
     f.write(" ")
@@ -51,3 +53,4 @@ for i in xrange(len(data)):
 
 
     f.write(data["stations"][i]["status"]+"\n")
+
