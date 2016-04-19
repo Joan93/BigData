@@ -1,2 +1,4 @@
 /*
 Our Project Idea consists of a BigData implementation of the "Bicing" Service in Barcelona.
+
+lucia
