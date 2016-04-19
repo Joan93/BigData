@@ -7,7 +7,7 @@ if ("exec" not in sys.argv):
  os.system('/Users/JoanIgnasi/Documents/spark-1.3.0-bin-hadoop2.4/bin/spark-submit demo_joan.py exec')
 
 
-# Programa
+#Programa
 
 else:
 
@@ -42,6 +42,13 @@ else:
     # |    |    |-- streetNumber: string (nullable = true)
     # |    |    |-- type: string (nullable = true)
     # |-- updateTime: long (nullable = true)
+
+
+    data.registerTempTable("data")
+
+    # SQL statements can be run by using the sql methods provided by `sqlContext`.
+    filterdata = sqlContext.sql("SELECT stations.id, stations.latitude, stations.longitude, stations.bikes,"
+                                " stations.slots, stations.status, stations.type updateTime FROM data ORDER BY stations.id ")
 
 
     '''

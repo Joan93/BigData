@@ -2,4 +2,15 @@
 
     Here some interesting links about the project's Idea:
 
-        -
+
+        http://opendata.bcn.cat/opendata/cataleg/TRANSPORT/bicing/
+        http://www.programmableweb.com/api/barcelona-bicing
+        http://www.bicyclette-app.com/data.html
+        http://bikes.oobrien.com/barcelona/#colour=0
+        http://barcelona.bisicalc.com/
+        http://api.citybik.es/v2/
+
+Importante:
+http://barcelonaapi.marcpous.com/
+
+
