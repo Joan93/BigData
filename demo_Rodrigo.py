@@ -41,8 +41,14 @@ else:
     # |    |    |-- type: string (nullable = true)
     # |-- updateTime: long (nullable = true)
     # Register this DataFrame as a table.
-    data.registerTempTable("data")
+
+    #data.registerTempTable("data")
 
     # SQL statements can be run by using the sql methods provided by `sqlContext`.
-    filterdata = sqlContext.sql("SELECT stations.id, stations.latitude, stations.longitude, stations.bikes,"
-                                " stations.slots, stations.status, stations.type updateTime FROM data ORDER BY stations.id ")
+    #filterdata = sqlContext.sql("SELECT stations.id, stations.latitude, stations.longitude, stations.bikes,"
+    #                            " stations.slots, stations.status, stations.type updateTime FROM data ORDER BY stations.id ").collect
+
+    completo = data.take(1)
+    for a in completo:
+     print(a)
+     print ('\n')
