@@ -4,12 +4,10 @@ import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
  import os
- os.system('/Users/JoanIgnasi/Documents/spark-1.3.0-bin-hadoop2.4/bin/pyspark demo_joan.py exec')
+ os.system('/Users/JoanIgnasi/Documents/spark-1.3.0-bin-hadoop2.4/bin/spark-submit demo_joan.py exec')
 
 
-
-
-
+# Programa
 
 else:
 
