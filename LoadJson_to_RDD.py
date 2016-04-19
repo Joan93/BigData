@@ -27,8 +27,21 @@ else:
     data_filter = data.flatMap(lambda line: line['stations'][:])\
         .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
 
-    data_filter.join(time)
+    total =  time.union(data_filter).collect()
 
-    mostrar = data_filter.collect()
-    for a in mostrar:
-        print a
+    #for data[""]
+
+    f = open("Process_Data/RDD/data.txt", 'w+')
+
+    line=""
+    first= True
+
+    for a in total:
+        if(first):
+            line= str(a)
+            first=False
+        else:
+         line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
+
+        print line
+        f.write(line+'\n')
