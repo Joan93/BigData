@@ -1,5 +1,4 @@
 #Rodrigo Demo file to work alone
-
 import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
