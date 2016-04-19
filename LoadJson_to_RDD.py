@@ -23,9 +23,12 @@ else:
     data = data_raw.map(lambda line: json.loads(line))
 
     # Extract relevant fields in dataset -- category label and text content
-    time = data.map(lambda line: (line['updateTime'])).first()
-    data_pared = data.flatMap(lambda line: line['stations'][:]).map(lambda station: [station['id'],station['altitude'],station['longitude']])
+    time = data.map(lambda line: (line['updateTime']))
+    data_filter = data.flatMap(lambda line: line['stations'][:])\
+        .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
 
-    mostrar = data_pared.collect()
+    data_filter.join(time)
+
+    mostrar = data_filter.collect()
     for a in mostrar:
         print a
