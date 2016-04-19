@@ -31,8 +31,23 @@ for i in xrange(10):
 
 f = open("Process_Data/data_python.txt", 'w+')
 
-for i in xrange(10):
+for i in xrange(len(data)):
 
-    f.write(data["stations"][i]["id"]+"\n")
-    f.write(data["stations"][i]["altitude"]+"\n")
-    f.write(data["stations"][i]["longitude"]+"\n")
+    f.write(data["stations"][i]["id"])
+    f.write(" ")
+    f.write(data["stations"][i]["altitude"])
+    f.write(" ")
+
+    f.write(data["stations"][i]["latitude"])
+    f.write(" ")
+    f.write(data["stations"][i]["bikes"])
+    f.write(" ")
+
+
+    f.write(data["stations"][i]["slots"])
+    f.write(" ")
+    f.write(data["stations"][i]["type"])
+    f.write(" ")
+
+
+    f.write(data["stations"][i]["status"]+"\n")
