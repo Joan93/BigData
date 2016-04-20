@@ -1,0 +1,2 @@
+The data referred to public bike services are standardized in a API REST that provide the in real-time the status of all stations
+In order to get a historical storage of the data, some script have been made to download the information, that are running every 3 min.
