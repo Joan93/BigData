@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #title           :LoadJson_python.py
-#description     :This script is or demo work, avoid git conflicts
+#description     :This script is to ..
 
 # UPC-EETAC MASTEAM 2015-2016 BIGDATA
 # Group former by Ana, Lucia, Joan and Rodrigo
@@ -17,7 +17,7 @@ with open('Data/data.json') as data_file:
 #print data["updateTime"]
 time=data["updateTime"]
 
-print ('Uptade Time: %i' %time)
+#print ('Uptade Time: %i' %time)
 
 #pprint(data)
 #print data["stations"]
@@ -41,25 +41,39 @@ for i in xrange(10):
 f = open("Process_Data/data_python.txt", 'w+')
 
 #f.write(data["updateTime"])
+
+
+first = True
 for i in xrange(len(data["stations"])):
 
-
-    f.write(data["stations"][i]["id"])
-    f.write(" ")
-    f.write(data["stations"][i]["altitude"])
-    f.write(" ")
-
-    f.write(data["stations"][i]["latitude"])
-    f.write(" ")
-    f.write(data["stations"][i]["bikes"])
-    f.write(" ")
-
-
-    f.write(data["stations"][i]["slots"])
-    f.write(" ")
-    f.write(data["stations"][i]["type"])
-    f.write(" ")
-
-
-    f.write(data["stations"][i]["status"]+"\n")
+    if(first):
+       # f.write(int(data["updateTime"],"\n"))
+        f.write(data["stations"][i]["id"])
+        f.write(" ")
+        f.write(data["stations"][i]["altitude"])
+        f.write(" ")
+        f.write(data["stations"][i]["latitude"])
+        f.write(" ")
+        f.write(data["stations"][i]["bikes"])
+        f.write(" ")
+        f.write(data["stations"][i]["slots"])
+        f.write(" ")
+        f.write(data["stations"][i]["type"])
+        f.write(" ")
+        f.write(data["stations"][i]["status"]+"\n")
+        first=False
+    else:
+        f.write(data["stations"][i]["id"])
+        f.write(" ")
+        f.write(data["stations"][i]["altitude"])
+        f.write(" ")
+        f.write(data["stations"][i]["latitude"])
+        f.write(" ")
+        f.write(data["stations"][i]["bikes"])
+        f.write(" ")
+        f.write(data["stations"][i]["slots"])
+        f.write(" ")
+        f.write(data["stations"][i]["type"])
+        f.write(" ")
+        f.write(data["stations"][i]["status"]+"\n")
 
