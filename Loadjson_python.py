@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+
+#title           :demo_Rodrigo.py
+#description     :This script is or demo work, avoid git conflicts
+
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA
+# Group former by Ana, Lucia, Joan and Rodrigo
+
+
 import json
 
 from pprint import pprint
@@ -14,7 +23,7 @@ print ('Uptade Time: %i' %time)
 #print data["stations"]
 #station
 
-
+'''
 for i in xrange(10):
     #print ('Uptade Time: %i' %print data["stations"][i]["id"])
     print data["stations"][i]["id"]
@@ -25,7 +34,7 @@ for i in xrange(10):
     print data["stations"][i]["slots"]
     print data["stations"][i]["type"]
     print data["stations"][i]["status"]
-
+'''
 
 #for data[""]
 

@@ -1,3 +1,12 @@
+#!/usr/bin/env python
+
+#title           :demo_Rodrigo.py
+#description     :This script is or demo work, avoid git conflicts
+
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA
+# Group formed by Ana, Lucia, Joan and Rodrigo
+
+
 # PARA EJECUTAR EL PROGRAMA en pycharm con pyspark
 
 import sys
