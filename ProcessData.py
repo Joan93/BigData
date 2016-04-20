@@ -39,32 +39,39 @@ else:
     sqlContext = SQLContext(sc)
 
     #Load data
-    path = data_folder+"data.json"
-    data_raw = sc.textFile(path)
+    files = os.listdir(data_folder)
 
+    for file in files:
 
-    # Parse JSON entries in dataset
-    data = data_raw.map(lambda line: json.loads(line))
-    # Extract relevant fields in dataset
-    time = data.map(lambda line: (line['updateTime']))
-    data_filter = data.flatMap(lambda line: line['stations'][:])\
-        .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
-    #Union both dataset
-    total =  time.union(data_filter).collect()
+        path = data_folder+file
+        data_raw = sc.textFile(path)
+        print path
+        # Parse JSON entries in dataset
+        data = data_raw.map(lambda line: json.loads(line))
+        # Extract relevant fields in dataset
+        time = data.map(lambda line: (line['updateTime']))
+        data_filter = data.flatMap(lambda line: line['stations'][:])\
+            .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
 
-    #Write Compact file with filtered data
-    f = open(data_process_folder+"data.txt", 'w+')
-    line=""
-    first= True
+        print time.first()
+        print data_filter.first()
 
-    for a in total:
-        if(first):
-            line= str(a)
-            first=False
-        else:
-         line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
+        #Union both dataset
+        total =  time.union(data_filter).collect()
 
-        #print line
-        f.write(line+'\n')
+        #Write Compact file with filtered data
+        f = open(data_process_folder+file, 'w+')
+        line=""
+        first= True
 
-    f.close()
+        for a in total:
+            if(first):
+                line= str(a)
+                first=False
+            else:
+             line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
+
+            #print line
+            f.write(line+'\n')
+
+        f.close()

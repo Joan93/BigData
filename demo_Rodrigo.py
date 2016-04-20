@@ -1,54 +1,76 @@
-#Rodrigo Demo file to work alone
+#!/usr/bin/env python
 
+#title           :demo_Rodrigo.py
+#description     :This script is or demo work, avoid git conflicts
+
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA
+# Group former by Ana, Lucia, Joan and Rodrigo
+
+spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit"
+script_file = "demo_Rodrigo.py"
+data_folder = "Data/"
+data_process_folder = "Process_Data/RDD/"
+
+# Auto-run Pycharm/python to Spark
 import sys
+import os
 if ("exec" not in sys.argv):
- #Autoexecute SDK
- import os
- os.system('/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit demo_Rodrigo.py exec')
+ #execute the script vias Spark
+ os.system(spark_path+" "+script_file+" exec")
 
 else:
+     # **** Script in SPARK ****
 
-    # sc is an existing SparkContext.
     from pyspark import SparkContext
     from pyspark.sql import SQLContext
     import json
 
+    #Config Spark
     sc=SparkContext()
     sqlContext = SQLContext(sc)
 
-    # A JSON dataset is pointed to by path.
-    # The path can be either a single text file or a directory storing text files.
-    path = "Data/data.json"
+    #Load data
+    files = os.listdir(data_folder)
 
-    # Create a SchemaRDD from the file(s) pointed to by path
-    data = sqlContext.jsonFile(path)
+    path = data_folder+"03-17-2016_12:57.json"
+    data_raw = sc.textFile(path)
+    print path
+    # Parse JSON entries in dataset
+    data = data_raw.map(lambda line: json.loads(line))
+    print data_raw
+    print data
 
-    # The inferred schema can be visualized using the printSchema() method.
-    data.printSchema()
-    # root
-    # |-- stations: array (nullable = true)
-    # |    |-- element: struct (containsNull = true)
-    # |    |    |-- altitude: string (nullable = true)
-    # |    |    |-- bikes: string (nullable = true)
-    # |    |    |-- id: string (nullable = true)
-    # |    |    |-- latitude: string (nullable = true)
-    # |    |    |-- longitude: string (nullable = true)
-    # |    |    |-- nearbyStations: string (nullable = true)
-    # |    |    |-- slots: string (nullable = true)
-    # |    |    |-- status: string (nullable = true)
-    # |    |    |-- streetName: string (nullable = true)
-    # |    |    |-- streetNumber: string (nullable = true)
-    # |    |    |-- type: string (nullable = true)
-    # |-- updateTime: long (nullable = true)
-    # Register this DataFrame as a table.
+    for r in data.collect():
+        print r
 
-    #data.registerTempTable("data")
+    # Extract relevant fields in dataset
+    time = data.map(lambda line: (line['updateTime']))
 
-    # SQL statements can be run by using the sql methods provided by `sqlContext`.
-    #filterdata = sqlContext.sql("SELECT stations.id, stations.latitude, stations.longitude, stations.bikes,"
-    #                            " stations.slots, stations.status, stations.type updateTime FROM data ORDER BY stations.id ").collect
+    '''
+    data_filter = data.flatMap(lambda line: line['stations'][:])\
+        .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
 
-    completo = data.take(1)
-    for a in completo:
-     print(a)
-     print ('\n')
+    print time.first()
+    print data_filter.first()
+
+    #Union both dataset
+    total =  time.union(data_filter).collect()
+
+    #Write Compact file with filtered data
+    f = open(data_process_folder+"03-17-2016_12:57.txt", 'w+')
+    line=""
+    first= True
+
+    for a in total:
+        if(first):
+            line= str(a)
+            first=False
+        else:
+         line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
+
+        #print line
+        f.write(line+'\n')
+
+    f.close()
+    '''
+    print " *** END ***"
