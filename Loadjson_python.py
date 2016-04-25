@@ -17,7 +17,7 @@ with open('Data/data.json') as data_file:
 #print data["updateTime"]
 time=data["updateTime"]
 
-#print ('Uptade Time: %i' %time)
+print ('Uptade Time: %i' %time)
 
 #pprint(data)
 #print data["stations"]
@@ -47,7 +47,8 @@ first = True
 for i in xrange(len(data["stations"])):
 
     if(first):
-       # f.write(int(data["updateTime"],"\n"))
+        f.write(str(data["updateTime"])+" ")
+        f.write(str(data["updateTime"])+"\n")
         f.write(data["stations"][i]["id"])
         f.write(" ")
         f.write(data["stations"][i]["altitude"])
