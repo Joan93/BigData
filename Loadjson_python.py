@@ -11,13 +11,13 @@ import json
 
 from pprint import pprint
 
-with open('Data/data.json') as data_file:
+with open('Data/03-17-2016_12:57.json') as data_file:
     data = json.load(data_file)
 
 #print data["updateTime"]
 time=data["updateTime"]
 
-print ('Uptade Time: %i' %time)
+#print ('Uptade Time: %i' %time)
 
 #pprint(data)
 #print data["stations"]
@@ -43,12 +43,22 @@ f = open("Process_Data/data_python.txt", 'w+')
 #f.write(data["updateTime"])
 
 
+import datetime
+print(
+    datetime.datetime.fromtimestamp(time)
+    .strftime('%Y-%m-%d %H:%M:%S')
+)
+
+fecha = datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
+
+
+
 first = True
 for i in xrange(len(data["stations"])):
 
     if(first):
         f.write(str(data["updateTime"])+" ")
-        f.write(str(data["updateTime"])+"\n")
+        f.write(str(fecha)+"\n")
         f.write(data["stations"][i]["id"])
         f.write(" ")
         f.write(data["stations"][i]["altitude"])
