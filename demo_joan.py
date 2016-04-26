@@ -19,6 +19,41 @@ if ("exec" not in sys.argv):
 #Programa
 
 else:
+ from pyspark.mllib.stat import Statistics
+
+#ejemplo de media, etc...
+
+ sc = ... # SparkContext
+
+ mat = ... # an RDD of Vectors
+
+ # Compute column summary statistics.
+ summary = Statistics.colStats(mat)
+ print summary.mean()
+ print summary.variance()
+ print summary.numNonzeros()
+
+
+#correlacion entre series
+
+from pyspark.mllib.stat import Statistics
+
+sc = ... # SparkContext
+
+seriesX = ... # a series
+seriesY = ... # must have the same number of partitions and cardinality as seriesX
+
+# Compute the correlation using Pearson's method. Enter "spearman" for Spearman's method. If a
+# method is not specified, Pearson's method will be used by default.
+print Statistics.corr(seriesX, seriesY, method="pearson")
+
+data = ... # an RDD of Vectors
+# calculate the correlation matrix using Pearson's method. Use "spearman" for Spearman's method.
+# If a method is not specified, Pearson's method will be used by default.
+print Statistics.corr(data, method="pearson")
+
+
+
 
    # sc is an existing SparkContext.
     from pyspark import SparkContext
