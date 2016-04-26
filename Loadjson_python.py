@@ -51,14 +51,37 @@ print(
 
 fecha = datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
 
+#dia=datetime.datetime.fromtimestamp(time).strftime('%d')
+hora=datetime.datetime.fromtimestamp(time).strftime('%H')
+min=datetime.datetime.fromtimestamp(time).strftime('%M')
 
+dia = datetime.datetime.fromtimestamp(time).weekday()
+
+newdia=dia*1000
+newhora=int(hora)*60
+print min
+print newdia
+print hora
+print newhora
+
+
+horasmin=(int(min)+int(newhora))/3
+print horasmin
+#formula para calcular el tiempo
+#int(newdia+newhora)/3
+
+#print tiempo
+
+
+totaltime=newdia+horasmin
+print totaltime
 
 first = True
 for i in xrange(len(data["stations"])):
 
     if(first):
         f.write(str(data["updateTime"])+" ")
-        f.write(str(fecha)+"\n")
+        f.write(str(totaltime)+"\n")
         f.write(data["stations"][i]["id"])
         f.write(" ")
         f.write(data["stations"][i]["altitude"])
