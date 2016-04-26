@@ -1,55 +1,52 @@
-#Rodrigo Demo file to work alone
+#Lucia and Ana work... File 2
+
 import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
  import os
- os.system('/home/lucia/spark-1.3.0-bin-hadoop2.4/bin/spark-submit demo_lucia.py exec')
+ os.system('/home/lucia/spark-1.3.0-bin-hadoop2.4/bin/spark-submit LoadJson_to_RDD_PreMatrix.py exec')
 
 else:
 
     # sc is an existing SparkContext.
     from pyspark import SparkContext
     from pyspark.sql import SQLContext
+    import json
 
     sc=SparkContext()
     sqlContext = SQLContext(sc)
 
-    # A JSON dataset is pointed to by path.
-    # The path can be either a single text file or a directory storing text files.
     path = "Data/data.json"
 
-    # Create a SchemaRDD from the file(s) pointed to by path
-    data = sqlContext.jsonFile(path)
+    data_raw = sc.textFile(path)
+    # Parse JSON entries in dataset
+    data = data_raw.map(lambda line: json.loads(line))
 
-    # The inferred schema can be visualized using the printSchema() method.
-    data.printSchema()
-    # root
-    # |-- stations: array (nullable = true)
-    # |    |-- element: struct (containsNull = true)
-    # |    |    |-- altitude: string (nullable = true)
-    # |    |    |-- bikes: string (nullable = true)
-    # |    |    |-- id: string (nullable = true)
-    # |    |    |-- latitude: string (nullable = true)
-    # |    |    |-- longitude: string (nullable = true)
-    # |    |    |-- nearbyStations: string (nullable = true)
-    # |    |    |-- slots: string (nullable = true)
-    # |    |    |-- status: string (nullable = true)
-    # |    |    |-- streetName: string (nullable = true)
-    # |    |    |-- streetNumber: string (nullable = true)
-    # |    |    |-- type: string (nullable = true)
-    # |-- updateTime: long (nullable = true)
+    # Extract relevant fields in dataset -- category label and text content
+    time = data.map(lambda line: (line['updateTime']))
+    data_filter = data.flatMap(lambda line: line['stations'][:])\
+        .map(lambda station: [station['id'],station['streetName'] + " " + station['streetNumber'],station['altitude'],station['latitude'],station['longitude'],station['nearbyStations'],station['type']])
+
+    data_filter.join(time)
+
+    # Falta imprimir en archivo
+
+    import io
+
+    f=io.open("Process_Data/RDD/Prematrix_data_python.txt", 'w+', encoding='utf8')
+        #text = f.read()
+    #f = open("Process_Data/Ana_data_python.txt", 'w+',encoding='utf8')
 
 
-    '''
-    # Register this SchemaRDD as a table.
-    data.registerTempTable("data")
 
-    # SQL statements can be run by using the sql methods provided by sqlContext.
-    teenagers = sqlContext.sql("SELECT name FROM people WHERE age >= 13 AND age <= 19")
-    '''
+    linea= ""
+    mostrar = data_filter.collect()
+    for a in mostrar:
+        for i in range(0,7):
+            linea= linea + a[i] + ";"
+        f.write(linea+"\n")
+        print (linea)
+        #f.write("\n")
+        print "\n"
+        linea=""
 
-    # Alternatively, a SchemaRDD can be created for a JSON dataset represented by
-    # an RDD[String] storing one JSON object per string.
-    anotherPeopleRDD = sc.parallelize([
-      '{"name":"Yin","address":{"city":"Columbus","state":"Ohio"}}'])
-    anotherPeople = sqlContext.jsonRDD(anotherPeopleRDD)
