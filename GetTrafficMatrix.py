@@ -4,24 +4,39 @@ from collections import OrderedDict
 
 #t_ini=time.time()
 
-NumberOfStations=496
+NumberOfStations=10
 Matrix=np.zeros((NumberOfStations,NumberOfStations))
+Status=np.zeros((NumberOfStations,2))
 
 Contador=0
-with open("Process_Data/RDD/Prematrix_data_python.txt","r") as fid:
+with open("Process_Data/RDD/Prematrix_data_python2.txt","r") as fid:
     for line in fid:
         f=line.split(';')
         id=f[0]
         partners=f[5]
+        status=f[7]
         p=partners.split(',')
+        Status[int(id) - 1, 0]=id
+        if status=="OPN":
+            Status[int(id)-1,1]=1
+        else:
+            Status[int(id)-1,1]=0
         #print id + " " + partners
         #print id
         #print "\n"
         for element in p:
             Matrix[int(id)-1,int(element)-1]=1
             Matrix [int(element)-1,int(id)-1]=1
+
         #    print element
         #print "\n \n"
+
+index=0
+for element in Status[:,1]:
+    if element == 0:
+        Matrix[:,index]=0
+        Matrix[index,:]=0
+    index = index + 1
 
 #import io
 #g=io.open("Process_Data/RDD/TrafficMatrix_data_python.txt", 'w+', encoding='utf8')
