@@ -1,0 +1,65 @@
+#mean variance etc.
+
+from pyspark.mllib.stat import Statistics
+
+sc = ... # SparkContext
+
+mat = ... # an RDD of Vectors
+
+# Compute column summary statistics.
+summary = Statistics.colStats(mat)
+print(summary.mean())
+print(summary.variance())
+print(summary.numNonzeros())
+
+
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+
+#CORRELATIONS
+
+
+
+from pyspark.mllib.stat import Statistics
+
+sc = ... # SparkContext
+
+seriesX = ... # a series
+seriesY = ... # must have the same number of partitions and cardinality as seriesX
+
+# Compute the correlation using Pearson's method. Enter "spearman" for Spearman's method. If a
+# method is not specified, Pearson's method will be used by default.
+print(Statistics.corr(seriesX, seriesY, method="pearson"))
+
+data = ... # an RDD of Vectors
+# calculate the correlation matrix using Pearson's method. Use "spearman" for Spearman's method.
+# If a method is not specified, Pearson's method will be used by default.
+print(Statistics.corr(data, method="pearson"))
+
+
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+
+#RANDOM DATA GENERATION
+
+
+
+from pyspark.mllib.random import RandomRDDs
+
+sc = ... # SparkContext
+
+# Generate a random double RDD that contains 1 million i.i.d. values drawn from the
+# standard normal distribution `N(0, 1)`, evenly distributed in 10 partitions.
+u = RandomRDDs.normalRDD(sc, 1000000L, 10)
+# Apply a transform to get a random double RDD following `N(1, 4)`.
+v = u.map(lambda x: 1.0 + 2.0 * x)
+
+
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------
+
+
