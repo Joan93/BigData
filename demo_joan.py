@@ -9,6 +9,31 @@
 
 # PARA EJECUTAR EL PROGRAMA en pycharm con pyspark
 
+
+
+float CalcDistance(float lon1, float lat1, float lon2, float lat2){
+		int R = 6371; // radius of earth in km
+		float dLat = (lat2-lat1)*(Mathf.PI / 180);
+		float dLon = (lon2-lon1)*(Mathf.PI / 180);
+		lat1 = lat1*(Mathf.PI / 180);
+		lat2 = lat2*(Mathf.PI / 180);
+		float a = Mathf.Sin(dLat/2) * Mathf.Sin(dLat/2) + Mathf.Sin(dLon/2) * Mathf.Sin(dLon/2) * Mathf.Cos(lat1) * Mathf.Cos(lat2);
+		float c = 2 * Mathf.Atan2(Mathf.Sqrt(a), Mathf.Sqrt(1-a));
+		float d = R * c;
+		return d; //distance in kms
+	}
+
+
+
+
+'''
+
+
+
+
+
+
+
 import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
@@ -36,21 +61,21 @@ else:
 
 #correlacion entre series
 
-from pyspark.mllib.stat import Statistics
+ from pyspark.mllib.stat import Statistics
 
-sc = ... # SparkContext
+ sc = ... # SparkContext
 
-seriesX = ... # a series
-seriesY = ... # must have the same number of partitions and cardinality as seriesX
+ seriesX = ... # a series
+ seriesY = ... # must have the same number of partitions and cardinality as seriesX
 
-# Compute the correlation using Pearson's method. Enter "spearman" for Spearman's method. If a
-# method is not specified, Pearson's method will be used by default.
-print Statistics.corr(seriesX, seriesY, method="pearson")
+ # Compute the correlation using Pearson's method. Enter "spearman" for Spearman's method. If a
+ # method is not specified, Pearson's method will be used by default.
+ print Statistics.corr(seriesX, seriesY, method="pearson")
 
-data = ... # an RDD of Vectors
-# calculate the correlation matrix using Pearson's method. Use "spearman" for Spearman's method.
-# If a method is not specified, Pearson's method will be used by default.
-print Statistics.corr(data, method="pearson")
+ data = ... # an RDD of Vectors
+ # calculate the correlation matrix using Pearson's method. Use "spearman" for Spearman's method.
+ # If a method is not specified, Pearson's method will be used by default.
+ print Statistics.corr(data, method="pearson")
 
 
 
@@ -108,7 +133,7 @@ print Statistics.corr(data, method="pearson")
     anotherPeopleRDD = sc.parallelize([
       '{"name":"Yin","address":{"city":"Columbus","state":"Ohio"}}'])
     anotherPeople = sqlContext.jsonRDD(anotherPeopleRDD)
-
+    '''
 
 
 ''''
@@ -141,4 +166,4 @@ anotherPeopleRDD = sc.parallelize([
 anotherPeople = sqlContext.jsonRDD(anotherPeopleRDD)
 
 
-'''''
+'''
