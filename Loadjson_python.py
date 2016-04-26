@@ -52,12 +52,16 @@ for file in files:
             f.write(str(totaltime)+"\n")
             f.write(data["stations"][i]["id"])
             f.write(" ")
+
+            '''
             f.write(data["stations"][i]["altitude"])
             f.write(" ")
             f.write(data["stations"][i]["latitude"])
             f.write(" ")
             f.write(data["stations"][i]["longitude"])
             f.write(" ")
+            '''
+
             f.write(data["stations"][i]["bikes"])
             f.write(" ")
             f.write(data["stations"][i]["slots"])
@@ -69,12 +73,14 @@ for file in files:
         else:
             f.write(data["stations"][i]["id"])
             f.write(" ")
+            '''
             f.write(data["stations"][i]["altitude"])
             f.write(" ")
             f.write(data["stations"][i]["latitude"])
             f.write(" ")
             f.write(data["stations"][i]["longitude"])
             f.write(" ")
+            '''
             f.write(data["stations"][i]["bikes"])
             f.write(" ")
             f.write(data["stations"][i]["slots"])

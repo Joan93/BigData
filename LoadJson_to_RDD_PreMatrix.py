@@ -25,7 +25,7 @@ else:
     # Extract relevant fields in dataset -- category label and text content
     time = data.map(lambda line: (line['updateTime']))
     data_filter = data.flatMap(lambda line: line['stations'][:])\
-        .map(lambda station: [station['id'],station['streetName'] + " " + station['streetNumber'],station['altitude'],station['latitude'],station['longitude'],station['nearbyStations'],station['type']])
+        .map(lambda station: [station['id'],station['streetName'] + " " + station['streetNumber'],station['altitude'],station['latitude'],station['longitude'],station['nearbyStations'],station['type'],station['status']])
 
     data_filter.join(time)
 
@@ -42,7 +42,7 @@ else:
     linea= ""
     mostrar = data_filter.collect()
     for a in mostrar:
-        for i in range(0,7):
+        for i in range(0,8):
             linea= linea + a[i] + ";"
         f.write(linea+"\n")
         print (linea)
