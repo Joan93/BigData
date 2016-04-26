@@ -21,54 +21,18 @@ if ("exec" not in sys.argv):
 else:
      # **** Script in SPARK ****
 
+
+    # sc is an existing SparkContext.
     from pyspark import SparkContext
     from pyspark.sql import SQLContext
     import json
+    import datetime
+    import os
 
-    #Config Spark
     sc=SparkContext()
     sqlContext = SQLContext(sc)
 
-    #Load data
-    files = os.listdir(data_folder)
-
-    path = data_folder+"03-17_2016_13_24.json"
-    #path = data_folder+"data2.json"
-    data_raw = sc.textFile(path)
-    print path
-    # Parse JSON entries in dataset
-    data = data_raw.map(lambda line: json.loads(line))
-    print data_raw
-    print data
-
-    # Extract relevant fields in dataset
-    time = data.map(lambda line: (line['updateTime']))
-
-
-    data_filter = data.flatMap(lambda line: line['stations'][:])\
-        .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
-
-    print time.first()
-    print data_filter.first()
-
-    #Union both dataset
-    total =  time.union(data_filter).collect()
-
-    #Write Compact file with filtered data
-    f = open(data_process_folder+"data5.txt", 'w+')
-    line=""
-    first= True
-
-    for a in total:
-        if(first):
-            line= str(a)
-            first=False
-        else:
-         line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
-
-        #print line
-        f.write(line+'\n')
-
-    f.close()
+    path = os.getcwd()+"/Data"
+    files = os.listdir(path)
 
     print " *** END ***"
