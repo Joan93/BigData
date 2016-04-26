@@ -10,6 +10,16 @@
         http://barcelona.bisicalc.com/
         http://api.citybik.es/v2/
 
+
+Spark Basic Statistics:
+
+    - For spark 1.6: http://spark.apache.org/docs/latest/mllib-statistics.html
+    - For spark 1.2: https://spark.apache.org/docs/1.2.0/mllib-statistics.html
+
+Regression Methods for Bike Sharing Data:
+    https://www.kaggle.com/nurlan/bike-sharing-demand/regression-methods-for-bike-sharing-data/notebook
+
+
 Importante:
 http://barcelonaapi.marcpous.com/
 
