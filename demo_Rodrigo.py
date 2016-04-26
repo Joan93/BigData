@@ -32,7 +32,8 @@ else:
     #Load data
     files = os.listdir(data_folder)
 
-    path = data_folder+"data3.json"
+    path = data_folder+"03-17_2016_13_24.json"
+    #path = data_folder+"data2.json"
     data_raw = sc.textFile(path)
     print path
     # Parse JSON entries in dataset
@@ -54,7 +55,7 @@ else:
     total =  time.union(data_filter).collect()
 
     #Write Compact file with filtered data
-    f = open(data_process_folder+"data4.txt", 'w+')
+    f = open(data_process_folder+"data5.txt", 'w+')
     line=""
     first= True
 
