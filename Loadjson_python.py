@@ -44,12 +44,13 @@ f = open("Process_Data/data_python.txt", 'w+')
 
 
 import datetime
+'''
 print(
     datetime.datetime.fromtimestamp(time)
     .strftime('%Y-%m-%d %H:%M:%S')
 )
-
-fecha = datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
+'''
+#fecha = datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S')
 
 #dia=datetime.datetime.fromtimestamp(time).strftime('%d')
 hora=datetime.datetime.fromtimestamp(time).strftime('%H')
@@ -59,14 +60,15 @@ dia = datetime.datetime.fromtimestamp(time).weekday()
 
 newdia=dia*1000
 newhora=int(hora)*60
+'''
 print min
 print newdia
 print hora
 print newhora
-
+'''
 
 horasmin=(int(min)+int(newhora))/3
-print horasmin
+#print horasmin
 #formula para calcular el tiempo
 #int(newdia+newhora)/3
 
@@ -74,7 +76,7 @@ print horasmin
 
 
 totaltime=newdia+horasmin
-print totaltime
+#print totaltime
 
 first = True
 for i in xrange(len(data["stations"])):
