@@ -59,7 +59,7 @@ else:
         dia = datetime.datetime.fromtimestamp(time[0]).weekday()
         horasmin=(int(min)+int(int(hora)*60))/3
         totaltime=dia*1000+horasmin
-        line= str(time[0])+"_"+str(totaltime)
+        line= str(time[0])+"_"+str(totaltime).zfill(4)
         #for data[""]
 
         filename = file.split(".")

@@ -17,8 +17,8 @@
 
 spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit"
 script_file = "ProcessData.py"
-data_folder = "Data/"
-data_process_folder = "Process_Data/RDD/"
+data_folder = "Process_Data/RDD/"
+data_process_folder = "Process_Data/RDD/SuperFile"
 
 # Auto-run Pycharm/python to Spark
 import sys
@@ -40,31 +40,28 @@ else:
 
     #Load data
     files = os.listdir(data_folder)
+    # Define the Header of RDD
+    # idlabel timestamp1, timestamp2 , tamstampn....
+
 
     for file in files:
 
         path = data_folder+file
+        #Get th timestamp and pseudotime
+        time = path[:-3].split('_')
+        pseudotime = int(time[1])
+        timestamp= int(time[0])
+
         data_raw = sc.textFile(path)
-        print path
-        # Parse JSON entries in dataset
-        data = data_raw.map(lambda line: json.loads(line))
-        # Extract relevant fields in dataset
-        time = data.map(lambda line: (line['updateTime']))
-        data_filter = data.flatMap(lambda line: line['stations'][:])\
-            .map(lambda station: [station['id'],station['altitude'],station['latitude'],station['longitude'],station['bikes'],station['slots'],station['type'],station['status']])
 
-        print time.first()
-        print data_filter.first()
 
-        #Union both dataset
-        total =  time.union(data_filter).collect()
 
-        #Write Compact file with filtered data
-        f = open(data_process_folder+file, 'w+')
-        line=""
-        first= True
 
-        for a in total:
+    f = open(data_process_folder+file, 'w+')
+    line=""
+    first= True
+    #WRite the super File
+    for a in total:
             if(first):
                 line= str(a)
                 first=False
