@@ -46,7 +46,7 @@ else:
         if len(sys.argv) == 2:
             filepath = sys.argv[1]
         else:
-            filepath = '/sample_linear_regression_data.txt'
+            filepath = 'sample_linear_regression_data.txt'
         corrType = 'pearson'
 
         points = MLUtils.loadLibSVMFile(sc, filepath)\
