@@ -38,21 +38,26 @@ else:
  summary = Statistics.colStats(rows)
 
 
+ print ("Datos estadistica")
+
 
 # estadisticas
 
- print(summary.mean())
- print(summary.variance())
- print(summary.numNonzeros())
- print (summary.max())
- print (summary.min())
+
+ print("media:"),(summary.mean())
+ print("varianza:"),(summary.variance())
+ print("non Zeros:"),(summary.numNonzeros())
+ print ("max:"),(summary.max())
+ print ("min:"),(summary.min())
 
 
 
 
 
 # correlacion
-
-
+ print (" ")
+ print (" ")
+ print ("matriz de correlacion:")
+ print (" ")
  print(Statistics.corr(rows, method="pearson"))
 
