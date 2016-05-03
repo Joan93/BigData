@@ -15,60 +15,70 @@
 # UPC-EETAC MASTEAM 2015-2016 BIGDATA
 # Group former by Ana, Lucia, Joan and Rodrigo
 
-spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit"
-script_file = "ProcessData.py"
 data_folder = "Process_Data/RDD/"
-data_process_folder = "Process_Data/RDD/SuperFile"
+data_process_folder_superfile = "Process_Data/RDD/SuperFile/"
+data_process_folder_station = "Process_Data/RDD/Station/"
 
 # Auto-run Pycharm/python to Spark
 import sys
 import os
-if ("exec" not in sys.argv):
- #execute the script vias Spark
- os.system(spark_path+" "+script_file+" exec")
 
-else:
-    # **** Script in SPARK ****
+# **** Script in SPARK ****
 
-    from pyspark import SparkContext
-    from pyspark.sql import SQLContext
-    import json
-
-    #Config Spark
-    sc=SparkContext()
-    sqlContext = SQLContext(sc)
-
-    #Load data
-    files = os.listdir(data_folder)
-    # Define the Header of RDD
-    # idlabel timestamp1, timestamp2 , tamstampn....
+import numpy as np
 
 
-    for file in files:
+#Load data
+#files = os.listdir(data_folder)
+files = [f for f in os.listdir(data_folder) if f.endswith(".txt")]
+vector = []
+labelcolumn = []
 
-        path = data_folder+file
-        #Get th timestamp and pseudotime
-        time = path[:-3].split('_')
-        pseudotime = int(time[1])
-        timestamp= int(time[0])
+for file in files:
 
-        data_raw = sc.textFile(path)
+    vector = np.array([])
 
+    #process file name
+    path = data_folder+file
+    #Get the timestamp and pseudotime
+    time = file[:-4].split('_')
+    pseudotime = int(time[1])
+    timestamp= int(time[0])
 
+    vector = np.append(vector, [timestamp,pseudotime])
 
+    #process each line
+    with open(data_folder+file) as f:
+        for line in f:
+            id = line.split(" ")[0]
+            bikes = line.split(" ")[1].rstrip('\n')
 
-    f = open(data_process_folder+file, 'w+')
+            #Write bikes value in station.dat file
+            fw = open(data_process_folder_station+id+".dat","a+")
+            line = str(timestamp)+";"+str(pseudotime)+";"+str(bikes)+" "
+            fw.write(line.rstrip('\n'))
+            fw.close()
+
+            vector = np.append(vector, bikes)
+
+    #Write Time vector for all ID in file
+    fw = open(data_process_folder_superfile+"superfile.dat","a+")
     line=""
-    first= True
-    #WRite the super File
-    for a in total:
-            if(first):
-                line= str(a)
-                first=False
-            else:
-             line = str(a[0])+" "+str(a[1])+" "+str(a[2])+" "+str(a[3])+" "+str(a[4])+" "+str(a[5])+" "+str(a[6])+" "+str(a[7])
 
-            #print line
-            f.write(line+'\n')
+    #print vector
+    for x in np.nditer(vector):
+        line+=str(x)+" "
 
-        f.close()
+    line = str(timestamp)+";"+str(pseudotime)+" "+str(line)+"\n"
+    fw.write(line)
+    fw.close()
+
+import fileinput
+files = [f for f in os.listdir(data_process_folder_station) if f.endswith(".dat")]
+with open(data_process_folder_superfile+"superstationfile.dat", 'w') as outfile:
+    for fname in files:
+        print fname
+        with open(data_process_folder_station+fname) as infile:
+            outfile.write(infile.read()+"\n")
+
+outfile.close()
