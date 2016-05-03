@@ -24,18 +24,23 @@ else:
  from pyspark.sql import SQLContext
  import numpy as np
  from pyspark.sql import *
+ from pyspark.mllib.linalg import Vectors
 
  sc=SparkContext()
 
- file=sc.textFile("traffic1hour.exp2")
 
+ v0 = Vectors.dense([1.0, 9.0, 9.0])
+ v1 = Vectors.dense([2.0, 3.0, 4.0])
+ v2 = Vectors.dense([3.0, 3.0, 4.0])
 
- dep=file.map(lambda line: line.split(";")[0])\
-	.map(lambda word: (word, 1))\
-	.reduceByKey(add)
+ rows = sc.parallelize([v0, v1, v2])
 
- print dep
- print(dep.mean())
+ summary = Statistics.colStats(rows)
+ print(summary.mean())
+ print(summary.variance())
+ print(summary.numNonzeros())
+ print (summary.max())
+ print (summary.min())
 
 
  '''
