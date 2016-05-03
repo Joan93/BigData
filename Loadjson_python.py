@@ -23,14 +23,6 @@ for file in files:
         data = json.load(data_file)
     time=data["updateTime"]
 
-
-    #fichero donde guardamos los nuevos datos
-    #f = open("Process_Data/Python/"+file+".txt", 'w+')
-
-    filename = file.split(".")
-    f = open(os.getcwd()+"/Process_Data/Python/"+filename[0]+".txt", 'w+')
-
-
     hora=datetime.datetime.fromtimestamp(time).strftime('%H')
     min=datetime.datetime.fromtimestamp(time).strftime('%M')
 
@@ -43,6 +35,18 @@ for file in files:
 
 
     totaltime=newdia+horasmin
+
+
+    #fichero donde guardamos los nuevos datos
+    #f = open("Process_Data/Python/"+file+".txt", 'w+')
+
+    line= str(time)+"_"+str(totaltime).zfill(4)
+
+    filename = file.split(".")
+    f = open(os.getcwd()+"/Process_Data/Python/"+line+".txt", 'w+')
+
+
+
 
     first = True
     for i in xrange(len(data["stations"])):
@@ -62,13 +66,15 @@ for file in files:
             f.write(" ")
             '''
 
-            f.write(data["stations"][i]["bikes"])
+            f.write(data["stations"][i]["bikes"]+"\n")
+            '''
             f.write(" ")
             f.write(data["stations"][i]["slots"])
             f.write(" ")
             f.write(data["stations"][i]["type"])
             f.write(" ")
             f.write(data["stations"][i]["status"]+"\n")
+            '''
             first=False
         else:
             f.write(data["stations"][i]["id"])
@@ -81,12 +87,14 @@ for file in files:
             f.write(data["stations"][i]["longitude"])
             f.write(" ")
             '''
-            f.write(data["stations"][i]["bikes"])
+            f.write(data["stations"][i]["bikes"]+"\n")
+            '''
             f.write(" ")
             f.write(data["stations"][i]["slots"])
             f.write(" ")
             f.write(data["stations"][i]["type"])
             f.write(" ")
             f.write(data["stations"][i]["status"]+"\n")
+            '''
 
     f.close()
