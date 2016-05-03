@@ -39,16 +39,19 @@ with open("Process_Data/RDD/Prematrix_data_python.txt", "r") as fid:
         i+=1
 print(neighbours_dic)
 
-#distance matrix
+#distance and height matrix
 for n in neighbours_dic:
     ne=n+1
     for ne in range(ne,len(neighbours_dic)):
         result = Cal_distance(neighbours_dic.values()[n][0], neighbours_dic.values()[n][1],neighbours_dic.values()[ne][0],neighbours_dic.values()[ne][1])
         matrix[n,ne]=result
         matrix[ne,n]=result
-        result2 = Cal_Height(neighbours_dic.values()[n][2],neighbours_dic.values()[ne][2])
-        matrix2[n,ne]=result2
+        result2 = Cal_Height(neighbours_dic.values()[n][2],neighbours_dic.values()[ne][2]) #origin-destiny
+        matrix2[n,ne]=result2 #n=origin, ne=destiny
         matrix2[ne,n]=result2
+
+print(np.amax(matrix)) #mayor distancia entre dos estaciones: 11.385 km
+print(np.amax(matrix2)) #mayor desnivel: 138 metros sobre el nivel del mar
 
 np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', matrix, delimiter=' ',newline='\n',fmt='%i')
 np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', matrix2, delimiter=' ',newline='\n',fmt='%i')
