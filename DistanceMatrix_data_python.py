@@ -21,8 +21,8 @@ def Cal_Height( height1, height2):
 
 
 number_stations=465
-matrix=np.zeros((number_stations, number_stations))
-matrix2=np.zeros((number_stations, number_stations))
+alt_matrix=np.zeros((number_stations, number_stations))
+height_matrix=np.zeros((number_stations, number_stations))
 neighbours_dic={}
 i=0
 
@@ -39,32 +39,34 @@ with open("Process_Data/RDD/Prematrix_data_python.txt", "r") as fid:
         i+=1
 print(neighbours_dic)
 
-#distance and height matrix
+#distance and height alt_matrix
 for n in neighbours_dic:
     ne=n+1
     for ne in range(ne,len(neighbours_dic)):
         result = Cal_distance(neighbours_dic.values()[n][0], neighbours_dic.values()[n][1],neighbours_dic.values()[ne][0],neighbours_dic.values()[ne][1])
-        matrix[n,ne]=result
-        matrix[ne,n]=result
+        alt_matrix[n,ne]=result
+        alt_matrix[ne,n]=result
         result2 = Cal_Height(neighbours_dic.values()[n][2],neighbours_dic.values()[ne][2]) #origin-destiny
-        matrix2[n,ne]=result2 #n=origin, ne=destiny
-        matrix2[ne,n]=result2
-minval=np.min(matrix[np.nonzero(matrix)])
+        height_matrix[n,ne]=result2 #n=origin, ne=destiny
+        height_matrix[ne,n]=result2
+minval=np.min(alt_matrix[np.nonzero(alt_matrix)])
 print(minval) #mayor distancia entre dos estaciones: 11.385 km
-print(np.amax(matrix2)) #mayor desnivel: 138 metros sobre el nivel del mar
+print(np.amax(height_matrix)) #mayor desnivel: 138 metros sobre el nivel del mar
 
+#inclinacion
 np.seterr(divide='ignore', invalid='ignore')
-inclination= np.divide(matrix2, matrix)
+inclination= np.divide(height_matrix, alt_matrix)
 inclination[inclination == np.inf] = 0
 inclination2 = np.nan_to_num(inclination)
-
-np.amax(inclination2)
+print(np.amax(inclination2))
 i,j=np.unravel_index(inclination2.argmax(),inclination2.shape)
 print(i)
 print(j)
-print(inclination2[i,j]*100)
-np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', matrix, delimiter=' ',newline='\n',fmt='%i')
-np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', matrix2, delimiter=' ',newline='\n',fmt='%i')
+print(str(alt_matrix[i,j]) +"m distance")
+print(str(height_matrix[i,j]) +"m height")
+
+np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', alt_matrix, delimiter=' ',newline='\n',fmt='%i')
+np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', height_matrix, delimiter=' ',newline='\n',fmt='%i')
 np.savetxt('Process_Data/RDD/AllinclinationMatrix_data_python.txt', inclination, delimiter=' ',newline='\n',fmt='%f')
 '''
 for n in neighbours_tup:
