@@ -51,50 +51,8 @@ for file in files:
     first = True
     for i in xrange(len(data["stations"])):
 
-        if(first):
-            f.write(str(data["updateTime"])+" ")
-            f.write(str(totaltime)+"\n")
-            f.write(data["stations"][i]["id"])
-            f.write(" ")
-
-            '''
-            f.write(data["stations"][i]["altitude"])
-            f.write(" ")
-            f.write(data["stations"][i]["latitude"])
-            f.write(" ")
-            f.write(data["stations"][i]["longitude"])
-            f.write(" ")
-            '''
-
-            f.write(data["stations"][i]["bikes"]+"\n")
-            '''
-            f.write(" ")
-            f.write(data["stations"][i]["slots"])
-            f.write(" ")
-            f.write(data["stations"][i]["type"])
-            f.write(" ")
-            f.write(data["stations"][i]["status"]+"\n")
-            '''
-            first=False
-        else:
-            f.write(data["stations"][i]["id"])
-            f.write(" ")
-            '''
-            f.write(data["stations"][i]["altitude"])
-            f.write(" ")
-            f.write(data["stations"][i]["latitude"])
-            f.write(" ")
-            f.write(data["stations"][i]["longitude"])
-            f.write(" ")
-            '''
-            f.write(data["stations"][i]["bikes"]+"\n")
-            '''
-            f.write(" ")
-            f.write(data["stations"][i]["slots"])
-            f.write(" ")
-            f.write(data["stations"][i]["type"])
-            f.write(" ")
-            f.write(data["stations"][i]["status"]+"\n")
-            '''
+        f.write(data["stations"][i]["id"])
+        f.write(" ")
+        f.write(data["stations"][i]["bikes"]+"\n")
 
     f.close()
