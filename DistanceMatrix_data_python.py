@@ -49,13 +49,23 @@ for n in neighbours_dic:
         result2 = Cal_Height(neighbours_dic.values()[n][2],neighbours_dic.values()[ne][2]) #origin-destiny
         matrix2[n,ne]=result2 #n=origin, ne=destiny
         matrix2[ne,n]=result2
-
-print(np.amax(matrix)) #mayor distancia entre dos estaciones: 11.385 km
+minval=np.min(matrix[np.nonzero(matrix)])
+print(minval) #mayor distancia entre dos estaciones: 11.385 km
 print(np.amax(matrix2)) #mayor desnivel: 138 metros sobre el nivel del mar
 
+np.seterr(divide='ignore', invalid='ignore')
+inclination= np.divide(matrix2, matrix)
+inclination[inclination == np.inf] = 0
+inclination2 = np.nan_to_num(inclination)
+
+np.amax(inclination2)
+i,j=np.unravel_index(inclination2.argmax(),inclination2.shape)
+print(i)
+print(j)
+print(inclination2[i,j]*100)
 np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', matrix, delimiter=' ',newline='\n',fmt='%i')
 np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', matrix2, delimiter=' ',newline='\n',fmt='%i')
-
+np.savetxt('Process_Data/RDD/AllinclinationMatrix_data_python.txt', inclination, delimiter=' ',newline='\n',fmt='%f')
 '''
 for n in neighbours_tup:
     for ne in neighbours_tup[n][2]:
@@ -63,7 +73,7 @@ for n in neighbours_tup:
         #print(neighbours_tup[n][0]-neighbours_tup[n_ne][0])
         print(n_ne)
         dlat=((neighbours_tup[n][0]-neighbours_tup[n_ne][0])*(pi/180))
-        dlon=((neighbours_tup[n][1]-neighbours_tup[n_ne][1])*(pi/180))
+        dlon=((neighbours_tup[n][1]-neigMismatch between array dtype ('float64') and format specifierhbours_tup[n_ne][1])*(pi/180))
         lat=(neighbours_tup[n][0]*(pi/180))
         lon=(neighbours_tup[n][1]*(pi/180))
 '''
