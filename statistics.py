@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#title           :demo_Rodrigo.py
+#title           :statistics.py
 #description     :This script is or demo work, avoid git conflicts
 
 # UPC-EETAC MASTEAM 2015-2016 BIGDATA
