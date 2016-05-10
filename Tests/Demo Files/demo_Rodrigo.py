@@ -6,8 +6,6 @@
 # UPC-EETAC MASTEAM 2015-2016 BIGDATA
 # Group former by Ana, Lucia, Joan and Rodrigo
 
-#spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit"
-spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.6.1-bin-hadoop2.6/bin/spark-submit"
 script_file = "demo_Rodrigo.py"
 data_folder = "Data/"
 data_process_folder = "Process_Data/RDD/"
