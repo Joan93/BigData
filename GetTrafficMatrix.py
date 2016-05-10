@@ -1,3 +1,9 @@
+###################################################################################
+#                                                                                 #
+#   Obtener la matrix de conectividad en función del estado de las estaciones     #
+#                                                                                 #
+###################################################################################
+
 import numpy as np
 from collections import OrderedDict
 #import resource

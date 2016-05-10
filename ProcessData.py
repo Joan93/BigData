@@ -25,7 +25,20 @@ import os
 
 # **** Script in SPARK ****
 
+import re
 import numpy as np
+
+
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+def natural_keys(text):
+    '''
+    alist.sort(key=natural_keys) sorts in human order
+    http://nedbatchelder.com/blog/200712/human_sorting.html
+    (See Toothy's implementation in the comments)
+    '''
+    return [atoi(c) for c in re.split('(\d+)', text)]
 
 
 #Load data
@@ -33,6 +46,7 @@ import numpy as np
 files = [f for f in os.listdir(data_folder) if f.endswith(".txt")]
 vector = []
 labelcolumn = []
+files.sort(key=natural_keys)
 
 for file in files:
 
@@ -42,20 +56,23 @@ for file in files:
     path = data_folder+file
     #Get the timestamp and pseudotime
     time = file[:-4].split('_')
-    pseudotime = int(time[1])
-    timestamp= int(time[0])
+    pseudotime = time[1]
+    timestamp= time[0]
 
-    vector = np.append(vector, [timestamp,pseudotime])
+    #vector = np.append(vector, [timestamp,pseudotime])
+    #for a in vector:
+    #    print a;
 
     #process each line
     with open(data_folder+file) as f:
         for line in f:
             id = line.split(" ")[0]
             bikes = line.split(" ")[1].rstrip('\n')
-
+            #print ("file:"+file+" "+id+" "+bikes)
             #Write bikes value in station.dat file
             fw = open(data_process_folder_station+id+".dat","a+")
             line = str(timestamp)+";"+str(pseudotime)+";"+str(bikes)+" "
+            #print line
             fw.write(line.rstrip('\n'))
             fw.close()
 
@@ -75,9 +92,10 @@ for file in files:
 
 import fileinput
 files = [f for f in os.listdir(data_process_folder_station) if f.endswith(".dat")]
+files.sort(key=natural_keys)
 with open(data_process_folder_superfile+"superstationfile.dat", 'w') as outfile:
     for fname in files:
-        print fname
+        #print fname
         with open(data_process_folder_station+fname) as infile:
             outfile.write(infile.read()+"\n")
 
