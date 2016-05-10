@@ -28,8 +28,9 @@ else:
 
  sc=SparkContext()
 
+ vn=np.array([1.0, 9.0, 9.0])
 
- v0 = Vectors.dense([1.0, 9.0, 9.0])
+ v0 = Vectors.dense(vn)
  v1 = Vectors.dense([2.0, 3.0, 4.0])
  v2 = Vectors.dense([3.0, 3.0, 4.0])
 
@@ -61,3 +62,42 @@ else:
  print (" ")
  print(Statistics.corr(rows, method="pearson"))
 
+
+
+# carreguem fitxer
+
+ file="Process_Data/RDD/SuperFile/superfile.dat"
+
+ airports=np.array([])
+ with open(file,"r")as fid:
+    for line in fid:
+        f=line.split(' ')
+        dep=f[1]
+        print dep
+        arr=f[2]
+        airports=np.array(dep)
+ print (airports)
+
+ v0 = Vectors.dense(airports)
+ print v0
+
+
+'''
+    dim=len(airports)
+    xtrafil=np.zeros((dim,dim))
+
+ with open(file,"r")as fid:
+    for line in fid:
+        f=line.split(' ')
+        dep=f[0]
+        arr=f[1]
+        fil=np.where(airports==dep)
+        column=np.where(airports==arr)
+        xtrafil[fil,column]=xtrafil[fil,column]+1
+    sd=xtrafil.sum(axis=0)
+    sa=xtrafil.sum(axis=1)
+    st=sd+sa
+ d = zip(airports, st, sd, sa)
+
+ print d
+ '''
