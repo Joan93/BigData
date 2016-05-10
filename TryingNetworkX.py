@@ -1,9 +1,17 @@
+###################################################################################################
+#                                                                                                 #
+#                   SCRIPT PARA PROBAR LAS LIBRERIAS DE GRAFOS,                                   #
+#                   DESCARGAR EN SYNAPTIC: NETWORKX Y MATPLOTLIB                                  #
+#                                                                                                 #
+###################################################################################################
+
 import matplotlib.pyplot as plt
 import networkx as nx
 
 G = nx.gnp_random_graph(100,0.02)
 
 degree_sequence=sorted(nx.degree(G).values(),reverse=True) # degree sequence
+print degree_sequence
 #print "Degree sequence", degree_sequence
 dmax=max(degree_sequence)
 

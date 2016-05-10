@@ -1,6 +1,6 @@
 ###################################################################################
 #                                                                                 #
-#   Obtener la matrix de conectividad en función del estado de las estaciones     #
+#   Obtener la matrix de conectividad en funcion del estado de las estaciones     #
 #                                                                                 #
 ###################################################################################
 
@@ -10,12 +10,12 @@ from collections import OrderedDict
 
 #t_ini=time.time()
 
-NumberOfStations=10
+NumberOfStations=496
 Matrix=np.zeros((NumberOfStations,NumberOfStations))
 Status=np.zeros((NumberOfStations,2))
 
 Contador=0
-with open("Process_Data/RDD/Prematrix_data_python2.txt","r") as fid:
+with open("Process_Data/RDD/Prematrix_data_python.txt","r") as fid:
     for line in fid:
         f=line.split(';')
         id=f[0]
@@ -53,4 +53,4 @@ for element in Status[:,1]:
 #    print "\n"
 #    linea=""
 
-np.savetxt('Process_Data/RDD/TrafficMatrix_data_python.txt', Matrix, delimiter=' ',newline='\n',fmt='%i')
+np.savetxt('Process_Data/RDD/TrafficMatrix_data_python_BIG.txt', Matrix, delimiter=' ',newline='\n',fmt='%i')
