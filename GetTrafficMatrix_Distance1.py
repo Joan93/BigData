@@ -1,3 +1,7 @@
+###########################################################################################################
+#                    ESTO NO ES IMPORTANTE
+###########################################################################################################
+
 import numpy as np
 import math
 from collections import OrderedDict
@@ -29,4 +33,3 @@ with open("Process_Data/RDD/Prematrix_data_python.txt","r") as fid:
             d = R * c
 
 np.savetxt('Process_Data/RDD/TrafficMatrix_data_python.txt', Matrix, delimiter=' ',newline='\n',fmt='%i')
-
