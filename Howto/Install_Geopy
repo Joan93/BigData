@@ -1,0 +1,8 @@
+#Instalar Geopy
+
+pip install geopy
+
+link: https://pypi.python.org/pypi/geopy
+
+geopy.location.Location(address='', point=None, raw=None)
+http://geopy.readthedocs.io/en/latest/index.html?highlight=altitude#geopy.location.Location.altitude

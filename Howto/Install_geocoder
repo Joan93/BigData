@@ -1,0 +1,12 @@
+#Install Geocoder
+
+$ pip install geocoder
+
+or
+
+$ git clone https://github.com/DenisCarriere/geocoder
+$ cd geocoder
+$ python setup.py install
+
+
+https://pypi.python.org/pypi/geocoder
