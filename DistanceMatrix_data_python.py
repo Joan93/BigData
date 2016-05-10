@@ -19,7 +19,6 @@ def Cal_Height( height1, height2):
     difference=height1-height2
     return difference
 
-
 number_stations=465
 alt_matrix=np.zeros((number_stations, number_stations))
 height_matrix=np.zeros((number_stations, number_stations))

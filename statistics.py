@@ -6,8 +6,6 @@
 # UPC-EETAC MASTEAM 2015-2016 BIGDATA
 # Group former by Ana, Lucia, Joan and Rodrigo
 
-
-
 import sys
 if ("exec" not in sys.argv):
  #Autoexecute SDK
@@ -52,17 +50,12 @@ else:
  print ("min:"),(summary.min())
 
 
-
-
-
 # correlacion
  print (" ")
  print (" ")
  print ("matriz de correlacion:")
  print (" ")
  print(Statistics.corr(rows, method="pearson"))
-
-
 
 # carreguem fitxer
 
@@ -74,6 +67,7 @@ else:
         f=line.split(' ')
         dep=f[1]
         print dep
+        '''
         arr=f[2]
         airports=np.array(dep)
  print (airports)
@@ -82,7 +76,7 @@ else:
  print v0
 
 
-'''
+
     dim=len(airports)
     xtrafil=np.zeros((dim,dim))
 
