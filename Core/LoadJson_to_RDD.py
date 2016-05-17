@@ -1,16 +1,26 @@
 #!/usr/bin/env python
 
-#title           :demo_Rodrigo.py
-#description     :This script is or demo work, avoid git conflicts
+#title           :LoadJson_to_RDD.py
+#description     :This script process the data in json format to compact interesting data files.
+#author          :Rodrigo
+#date            :2016-04-10
+#version         :0.2
+#usage           :python LoadJson_to_RDD.py
+#notes           :
+#python_version  :2.7.6
+#requirements    :Spark 1.6
 
-# UPC-EETAC MASTEAM 2015-2016 BIGDATA
-# Group former by Ana, Lucia, Joan and Rodrigo
+#==============================================================================
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA                                         #
+# Group former by Ana, Lucia, Joan and Rodrigo                                #
+#==============================================================================
 
-#spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.3.0-bin-hadoop2.4/bin/spark-submit"
-spark_path = "/home/rodrigo/Programe_Files_Linux/spark-1.6.1-bin-hadoop2.6/bin/spark-submit"
+import config as conf
+
+spark_path = conf.spark_path
 script_file = "LoadJson_to_RDD.py"
-data_folder = "Data/"
-data_process_folder = "Process_Data/RDD/"
+data_folder = conf.data_folder
+data_process_folder = conf.data_process_historical
 
 # Auto-run Pycharm/python to Spark
 import sys
@@ -64,7 +74,6 @@ else:
 
         filename = file.split(".")
         f = open(data_process_folder+line+".txt", 'w+')
-
 
         line=""
         for a in data_filter.collect():
