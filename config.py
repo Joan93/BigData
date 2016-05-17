@@ -17,7 +17,7 @@ import os
 log_error=True # if the programe save the error in a file
 verbose=True # if the program show in screen the status information of the data or process
 mode_test=True #try to check some test at init of the program
-spark_use=False
+spark_use=True
 
 #--- External Software:
 # *SPARK
@@ -33,17 +33,24 @@ project_path = os.getcwd()+"/"
 log_error_file=project_path+"log_error.log"
 
 # *Core Scripts
-core_folder =project_path+"Core/"
+core = "Core/"
+core_folder =project_path+core
+
 
 # *Raw data storage in json from scripts
-data_folder = project_path+"Data/"
+data = "Data/"
+data_folder = project_path+data
 # *Process data
-data_process_folder = project_path+"Process_Data/"
+processdata = "Process_Data/"
+data_process_folder = project_path+processdata
 data_process_folder_RDD = project_path+"Process_Data/RDD/"
 data_process_folder_python = project_path+"Process_Data/python/"
 # *Process Data historical Storage
-data_process_historical = project_path+"Process_Data/Data_history/"
+history ="Data_history/"
+data_process_historical = data_process_folder+history
 
 # *Super Files subfolder in Process Data
-data_process_folder_superfile = project_path+"Process_Data/SuperFile/"
-data_process_folder_station = project_path+"Process_Data/Station/"
+superfile="SuperFile/"
+data_process_folder_superfile = data_process_folder+superfile
+superstation="Station/"
+data_process_folder_station = data_process_folder+superstation
