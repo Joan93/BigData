@@ -10,11 +10,11 @@ from collections import OrderedDict
 
 #t_ini=time.time()
 
-NumberOfStations=496
+NumberOfStations=465
 Matrix=np.zeros((NumberOfStations,NumberOfStations))
 Status=np.zeros((NumberOfStations,2))
 
-Contador=0
+contador=0
 with open("Process_Data/Prematrix_data_python_fix.txt","r") as fid:
     for line in fid:
         f=line.split(';')
@@ -22,17 +22,19 @@ with open("Process_Data/Prematrix_data_python_fix.txt","r") as fid:
         partners=f[5]
         status=f[7]
         p=partners.split(',')
-        Status[int(id) - 1, 0]=id
+        Status[contador, 0]=id
         if status=="OPN":
-            Status[int(id)-1,1]=1
+            Status[contador,1]=1
         else:
-            Status[int(id)-1,1]=0
+            Status[contador,1]=0
         #print id + " " + partners
         #print id
         #print "\n"
         for element in p:
-            Matrix[int(id)-1,int(element)-1]=1
-            Matrix [int(element)-1,int(id)-1]=1
+            Matrix[contador,int(element)-1]=1
+            Matrix [int(element)-1,contador]=1
+
+        contador=contador+1
 
         #    print element
         #print "\n \n"
