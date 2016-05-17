@@ -15,7 +15,7 @@ Matrix=np.zeros((NumberOfStations,NumberOfStations))
 Status=np.zeros((NumberOfStations,2))
 
 Contador=0
-with open("Process_Data/RDD/Prematrix_data_python.txt","r") as fid:
+with open("Process_Data/Prematrix_data_python_fix.txt","r") as fid:
     for line in fid:
         f=line.split(';')
         id=f[0]

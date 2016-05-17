@@ -25,7 +25,7 @@ height_matrix=np.zeros((number_stations, number_stations))
 neighbours_dic={}
 i=0
 
-with open("Process_Data/RDD/Prematrix_data_python.txt", "r") as fid:
+with open("Process_Data/Prematrix_data_python_fix.txt", "r") as fid:
     for line in fid:
         f=line.split(';')
         id=f[0]
@@ -34,7 +34,7 @@ with open("Process_Data/RDD/Prematrix_data_python.txt", "r") as fid:
         longitude=f[4]
         partners=f[5]
         all_partners=partners.split(',')
-        neighbours_dic[i]=(float(longitude), float(latitude), int(height))
+        neighbours_dic[i]=(float(longitude), float(latitude), float(height))
         i+=1
 print(neighbours_dic)
 
@@ -49,20 +49,24 @@ for n in neighbours_dic:
         height_matrix[n,ne]=result2 #n=origin, ne=destiny
         height_matrix[ne,n]=result2
 minval=np.min(alt_matrix[np.nonzero(alt_matrix)])
-print(minval) #mayor distancia entre dos estaciones: 11.385 km
-print(np.amax(height_matrix)) #mayor desnivel: 138 metros sobre el nivel del mar
+print("minimal distance value: "+str(minval)) #mayor distancia entre dos estaciones: 11.385 km
+print("max denivel value: "+str(np.amax(height_matrix))) #mayor desnivel: 138 metros sobre el nivel del mar
+i,j=np.unravel_index(height_matrix.argmax(),height_matrix.shape)
+print(height_matrix[i,j])
+print(alt_matrix[i,j])
 
 #inclinacion
 np.seterr(divide='ignore', invalid='ignore')
 inclination= np.divide(height_matrix, alt_matrix)
 inclination[inclination == np.inf] = 0
 inclination2 = np.nan_to_num(inclination)
+
 print(np.amax(inclination2))
 i,j=np.unravel_index(inclination2.argmax(),inclination2.shape)
-print(i)
-print(j)
-print(str(alt_matrix[i,j]) +"m distance")
-print(str(height_matrix[i,j]) +"m height")
+print("i:"+str(i))
+print("j:"+str(j))
+print("distance: "+str(alt_matrix[i,j]) +" m distance")
+print("desnivel: "+str(height_matrix[i,j]) +" m height")
 
 np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', alt_matrix, delimiter=' ',newline='\n',fmt='%i')
 np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', height_matrix, delimiter=' ',newline='\n',fmt='%i')
