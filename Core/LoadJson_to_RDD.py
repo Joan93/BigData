@@ -31,9 +31,9 @@ import sys
 import os
 if ("exec" not in sys.argv):
  #execute the script vias Spark
-
- os.system(command_execution)
-
+ #os.system(spark_path+" "+script_file+" " exec)
+ if(conf.verbose):
+     print "Load RDD process Json"
 
 else:
     # **** Script in SPARK ****

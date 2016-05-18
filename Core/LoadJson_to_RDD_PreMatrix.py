@@ -1,10 +1,37 @@
-#Lucia and Ana work... File 2
+#!/usr/bin/env python
+
+#title           :LoadJson_to_RDD_PreMatrix.py
+#description     :This script process the data in json format to compact teh static data in one file.
+#author          :Lucia & Ana
+#date            :2016-04-20
+#version         :0.3
+#usage           :python LoadJson_to_RDD.py
+#notes           :
+#python_version  :2.7.6
+#requirements    :Spark 1.6
+
+#==============================================================================
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA                                         #
+# Group former by Ana, Lucia, Joan and Rodrigo                                #
+#==============================================================================
 
 import sys
+import config as conf
+import os
+
+spark_path = conf.spark_path
+script_file = "LoadJson_to_RDD_PreMatrix.py"
+data_folder = conf.data_folder
+data_process_file_prematrix = conf.data_process_file_prematrix
+command_execution = spark_path+" "+conf.core_folder+script_file+" exec"
+
+def run_main():
+    os.system(command_execution)
+
 if ("exec" not in sys.argv):
  #Autoexecute SDK
- import os
- os.system('/home/ns3/spark-1.3.0-bin-hadoop2.4/bin/spark-submit LoadJson_to_RDD_PreMatrix.py exec')
+ os.system(command_execution)
+ #os.system('/home/ns3/spark-1.3.0-bin-hadoop2.4/bin/spark-submit LoadJson_to_RDD_PreMatrix.py exec')
 
 else:
 
@@ -16,9 +43,11 @@ else:
     sc=SparkContext()
     sqlContext = SQLContext(sc)
 
-    path = "Data/data.json"
-
-    data_raw = sc.textFile(path)
+    #path = "Data/data.json"
+    path = data_folder
+    files = os.listdir(path)
+    print files[0]
+    data_raw = sc.textFile(files[0])
     # Parse JSON entries in dataset
     data = data_raw.map(lambda line: json.loads(line))
 
@@ -33,10 +62,9 @@ else:
 
     import io
 
-    f=io.open("Process_Data/RDD/Prematrix_data_python.txt", 'w+', encoding='utf8')
+    f=io.open(data_process_file_prematrix, 'w+', encoding='utf8')
         #text = f.read()
     #f = open("Process_Data/Ana_data_python.txt", 'w+',encoding='utf8')
-
 
 
     linea= ""
@@ -45,8 +73,8 @@ else:
         for i in range(0,8):
             linea= linea + a[i] + ";"
         f.write(linea+"\n")
-        print (linea)
+        #print (linea)
         #f.write("\n")
-        print "\n"
+        #print "\n"
         linea=""
 

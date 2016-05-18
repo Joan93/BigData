@@ -44,13 +44,14 @@ if(conf.mode_test):
     print(conf.data_process_folder_station+"\n")
 
 if(conf.spark_use):
-    print "aqui llega 1"
     import  Core.LoadJson_to_RDD as ProcessJson
-    #import Core.LoadJson_to_RDD_PreMatrix
+    import Core.LoadJson_to_RDD_PreMatrix as ProcessJson_fixmatrix
 else:
-    print "aqui llega 2"
     import Core.Loadjson_python as ProcessJson
-    #import Core.Loadjson_python_PreMatrix
-    print "aqui llega 3"
-    #Process the Json storage to compact in a historical data files
-    ProcessJson.run_main(False)
+    #import Core.Loadjson_python_PreMatrix as ProcessJson_fixmatrix
+
+#Process the Json storage to compact in a historical data files
+#ProcessJson.run_main()
+
+#Process static matrix
+ProcessJson_fixmatrix.run_main()
