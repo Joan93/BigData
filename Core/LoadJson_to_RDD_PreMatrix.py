@@ -40,6 +40,7 @@ else:
     from pyspark.sql import SQLContext
     import json
 
+
     sc=SparkContext()
     sqlContext = SQLContext(sc)
 
@@ -47,7 +48,7 @@ else:
     path = data_folder
     files = os.listdir(path)
     print files[0]
-    data_raw = sc.textFile(files[0])
+    data_raw = sc.textFile(path+"/"+files[0])
     # Parse JSON entries in dataset
     data = data_raw.map(lambda line: json.loads(line))
 
