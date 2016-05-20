@@ -22,7 +22,7 @@ import os
 spark_path = conf.spark_path
 script_file = "LoadJson_to_RDD_PreMatrix.py"
 data_folder = conf.data_folder
-data_process_file_prematrix = conf.data_process_file_prematrix
+data_process_file_prematrix = conf.data_process_file_prematrix_error
 command_execution = spark_path+" "+conf.core_folder+script_file+" exec"
 
 def run_main():

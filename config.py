@@ -50,6 +50,7 @@ history ="Data_history/"
 data_process_historical = data_process_folder+history
 # *Prematrix fix processing
 data_process_file_prematrix=data_process_folder+"Prematrix_data.txt"
+data_process_file_prematrix_error=data_process_folder+"Prematrix_data_error.txt"
 
 # *Super Files subfolder in Process Data
 superfile="SuperFile/"

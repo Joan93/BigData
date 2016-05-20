@@ -46,6 +46,7 @@ if(conf.mode_test):
 if(conf.spark_use):
     import  Core.LoadJson_to_RDD as ProcessJson
     import Core.LoadJson_to_RDD_PreMatrix as ProcessJson_fixmatrix
+    import Core.fix_height as fix_error
 else:
     import Core.Loadjson_python as ProcessJson
     #import Core.Loadjson_python_PreMatrix as ProcessJson_fixmatrix
@@ -55,3 +56,5 @@ else:
 
 #Process static matrix
 ProcessJson_fixmatrix.run_main()
+if(conf.spark_use):
+    fix_error.fix()
