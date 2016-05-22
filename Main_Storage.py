@@ -49,7 +49,7 @@ if(conf.spark_use):
     import Core.fix_height as fix_error
 else:
     import Core.Loadjson_python as ProcessJson
-    #import Core.Loadjson_python_PreMatrix as ProcessJson_fixmatrix
+    import Core.Loadjson_python_PreMatrix as ProcessJson_fixmatrix
 
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main()
