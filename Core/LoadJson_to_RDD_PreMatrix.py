@@ -59,6 +59,10 @@ else:
 
     data_filter.join(time)
 
+    data_vector = data.flatMap(lambda line: line['stations'][:])\
+        .map(lambda station: [station['id'],station['latitude'],station['longitude'],station['altitude'], str(int(station['slots'])+int(station['bikes'])),station['type']])
+
+
     # Falta imprimir en archivo
 
     import io
@@ -70,6 +74,7 @@ else:
 
     linea= ""
     mostrar = data_filter.collect()
+    vector = data_vector.collect()
     for a in mostrar:
         for i in range(0,8):
             linea= linea + a[i] + ";"
@@ -78,4 +83,14 @@ else:
         #f.write("\n")
         #print "\n"
         linea=""
+    f.close()
 
+    f=io.open(conf.data_process_file_vector_error, 'w+', encoding='utf8')
+    for a in vector:
+        for i in range(0,6):
+            linea= linea + a[i] + ";"
+        f.write(linea+"\n")
+        #print (linea)
+        #f.write("\n")
+        #print "\n"
+        linea=""

@@ -55,6 +55,5 @@ else:
 #ProcessJson.run_main()
 
 #Process static matrix
-ProcessJson_fixmatrix.run_main()
 if(conf.spark_use):
     fix_error.fix()

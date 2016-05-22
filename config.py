@@ -52,6 +52,10 @@ data_process_historical = data_process_folder+history
 data_process_file_prematrix=data_process_folder+"Prematrix_data.txt"
 data_process_file_prematrix_error=data_process_folder+"Prematrix_data_error.txt"
 
+# *Vector
+data_process_file_vector=data_process_folder+"vector_data.txt"
+data_process_file_vector_error=data_process_folder+"vector_data_error.txt"
+
 # *Super Files subfolder in Process Data
 superfile="SuperFile/"
 data_process_folder_superfile = data_process_folder+superfile
