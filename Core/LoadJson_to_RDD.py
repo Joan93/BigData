@@ -23,7 +23,7 @@ data_folder = conf.data_folder
 data_process_folder = conf.data_process_historical
 command_execution = spark_path+" "+conf.core_folder+script_file+" exec"
 
-def run_main():
+def run_main(alone):
     os.system(command_execution)
 
 # Auto-run Pycharm/python to Spark

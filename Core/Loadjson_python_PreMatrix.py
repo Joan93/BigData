@@ -8,8 +8,6 @@
 
 import os
 import json
-import datetime
-from pprint import pprint
 import geocoder
 import time
 import config as conf
@@ -28,7 +26,7 @@ def run_main():
 
     files = os.listdir(conf.data_folder)
     data_process_file_prematrix = conf.data_process_file_prematrix
-
+    data_process_file_vector = conf.data_process_file_vector
 
 
     #fichero JSON con el que vamos a trabajar
@@ -36,16 +34,16 @@ def run_main():
         data = json.load(data_file)
 
     f = codecs.open(data_process_file_prematrix, 'w+',encoding='utf8')
+    vector_line=""
 
-
-    first = True
     for i in xrange(len(data["stations"])):
 
         f.write(data["stations"][i]["id"])
         f.write(";")
         f.write(data["stations"][i]["streetName"]+" "+data["stations"][i]["streetNumber"])
         f.write(";")
-        f.write(getaltitude(float(data["stations"][i]["latitude"]), float(data["stations"][i]["longitude"])))
+        height =getaltitude(float(data["stations"][i]["latitude"]), float(data["stations"][i]["longitude"]))
+        f.write(height)
         f.write(";")
         f.write(data["stations"][i]["latitude"])
         f.write(";")
@@ -56,5 +54,10 @@ def run_main():
         f.write(data["stations"][i]["type"])
         f.write(";")
         f.write(data["stations"][i]["status"]+";\n")
+        vector_line+=data["stations"][i]["id"]+";"+data["stations"][i]["latitude"]+";"+data["stations"][i]["longitude"]+";"+str(height)+";"+str(int(data["stations"][i]["slots"])+int(data["stations"][i]["bikes"]))+";"+data["stations"][i]["type"]+";\n"
 
+    f.close()
+
+    f = codecs.open(data_process_file_vector, 'w+',encoding='utf8')
+    f.write(vector_line)
     f.close()

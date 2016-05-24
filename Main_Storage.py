@@ -51,9 +51,24 @@ else:
     import Core.Loadjson_python as ProcessJson
     import Core.Loadjson_python_PreMatrix as ProcessJson_fixmatrix
 
+import Core.ProcessData as CreateSuperFiles
+
 #Process the Json storage to compact in a historical data files
-#ProcessJson.run_main()
+#ProcessJson.run_main(False)
+
+#Prematrix process
+#ProcessJson_fixmatrix.run_main()
+
+#Prematri
 
 #Process static matrix
 if(conf.spark_use):
     fix_error.fix()
+
+#Create link matrix, Adjacent matrix
+
+#Process SuperFiles
+# ** Acordarse de añadir borrar archivos al principio o en cada pasa.. para eliminar caca poner un conf.erase par true o false?
+#CreateSuperFiles.run_main()
+
+

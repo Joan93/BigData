@@ -17,7 +17,7 @@ import os
 log_error=True # if the programe save the error in a file
 verbose=True # if the program show in screen the status information of the data or process
 mode_test=True #try to check some test at init of the program
-spark_use=True
+spark_use=False
 
 #--- External Software:
 # *SPARK
