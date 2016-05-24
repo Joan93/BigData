@@ -1,58 +1,66 @@
+#!/usr/bin/env python
+
+#title           :GetTrafficMatrix.py
+#description     :This script process PReMatrix file to get Adjacent matrix of netwok.
+#author          :Ana Cristina
+#date            :2016-04-25
+#version         :0.1
+#usage           :python pyscript.py
+#notes           :
+#python_version  :2.7.6
+#==============================================================================
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA                                         #
+# Group former by Ana, Lucia, Joan and Rodrigo                                #
+#==============================================================================
+
 ###################################################################################
 #                                                                                 #
 #   Obtener la matrix de conectividad en funcion del estado de las estaciones     #
 #                                                                                 #
 ###################################################################################
 
-import numpy as np
-from collections import OrderedDict
-#import resource
+def run_main():
 
-#t_ini=time.time()
+    import numpy as np
+    from collections import OrderedDict
+    import config as conf
+    import IdDictionary
 
-NumberOfStations=465
-Matrix=np.zeros((NumberOfStations,NumberOfStations))
-Status=np.zeros((NumberOfStations,2))
+    InputFile = conf.data_process_file_prematrix
+    OutputFile= conf.data_process_file_adjacentmatrix
 
-contador=0
-with open("Process_Data/Prematrix_data_python_fix.txt","r") as fid:
-    for line in fid:
-        f=line.split(';')
-        id=f[0]
-        partners=f[5]
-        status=f[7]
-        p=partners.split(',')
-        Status[contador, 0]=id
-        if status=="OPN":
+    NumberOfStations=465
+    #create matrix with zeros
+    Matrix=np.zeros((NumberOfStations,NumberOfStations))
+    Status=np.zeros((NumberOfStations,2))
+
+    #import diccionary for id and position
+    superdict = IdDictionary.run_main()
+
+    contador=-1
+    with open(InputFile,"r") as fid:
+        for line in fid:
+            f=line.split(';')
+            id=f[0]
+            partners=f[5]
+            status=f[7]
+            p=partners.split(',')
+            Status[contador, 0]=id
             Status[contador,1]=1
-        else:
-            Status[contador,1]=0
-        #print id + " " + partners
-        #print id
-        #print "\n"
-        for element in p:
-            Matrix[contador,int(element)-1]=1
-            Matrix [int(element)-1,contador]=1
 
-        contador=contador+1
+            for element in p:
+                posicion = int((superdict[element.strip()])['position'])
+                print posicion
+                Matrix[contador,posicion]=1
+                Matrix [posicion,contador]=1
+            contador=contador+1
 
-        #    print element
-        #print "\n \n"
+    index=0
+    for element in Status[:,1]:
+        if element == 0:
+            Matrix[:,index]=0
+            Matrix[index,:]=0
+        index = index + 1
 
-index=0
-for element in Status[:,1]:
-    if element == 0:
-        Matrix[:,index]=0
-        Matrix[index,:]=0
-    index = index + 1
 
-#import io
-#g=io.open("Process_Data/RDD/TrafficMatrix_data_python.txt", 'w+', encoding='utf8')
-#linea= ""
-#for i in range(0,495):
-#    print(Matrix[:, i])
-    #g.write (Matrix[:, i])
-#    print "\n"
-#    linea=""
-
-np.savetxt('Process_Data/RDD/TrafficMatrix_data_python_BIG.txt', Matrix, delimiter=' ',newline='\n',fmt='%i')
+    np.savetxt(OutputFile, Matrix, delimiter=' ',newline='\n',fmt='%i')

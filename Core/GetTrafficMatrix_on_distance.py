@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+
+#title           :GetTrafficMatrix_ondistance.py
+#description     :This script process PReMatrix file to get Adjacent matrix of netwok.
+#author          :Lucia
+#date            :2016-04-28
+#version         :0.1
+#usage           :python pyscript.py
+#notes           :
+#python_version  :2.7.6
+#==============================================================================
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA                                         #
+# Group former by Ana, Lucia, Joan and Rodrigo                                #
+#==============================================================================
+
 ###################################################################################
 #                                                                                 #
 #  Obtener la matrix de conectividad en funcion de la distancia entre estaciones  #
@@ -6,11 +21,8 @@
 
 import numpy as np
 from io import StringIO
-
 from collections import OrderedDict
-#import resource
 
-#t_ini=time.time()
 
 NumberOfStations=465
 Matrix=np.zeros((NumberOfStations,NumberOfStations))

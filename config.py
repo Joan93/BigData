@@ -61,3 +61,11 @@ superfile="SuperFile/"
 data_process_folder_superfile = data_process_folder+superfile
 superstation="Station/"
 data_process_folder_station = data_process_folder+superstation
+
+# *Adyacent Matrix File
+adjacentmatrixfile ="AdjacentMatrix.dat"
+data_process_file_adjacentmatrix =data_process_folder+adjacentmatrixfile
+adjacentmatrixfile_distance ="AdjacentMatrix_distance.dat"
+data_process_file_adjacentmatrix_distance =data_process_folder+adjacentmatrixfile_distance
+weight_edgematrix ="WeightMatrix_distance.dat"
+data_process_file_weight_edgematrix =data_process_folder+adjacentmatrixfile
