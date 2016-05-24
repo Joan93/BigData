@@ -62,6 +62,14 @@ data_process_folder_superfile = data_process_folder+superfile
 superstation="Station/"
 data_process_folder_station = data_process_folder+superstation
 
+# *Distance Matrix File
+distancematrixfile ="DistanceMatrix.dat"
+data_process_file_distancematrix =data_process_folder+distancematrixfile
+height_matrixfile ="HeightMatrix.dat"
+data_process_file_heightmatrix =data_process_folder+height_matrixfile
+inclination_matrixfile ="InclinationMatrix.dat"
+data_process_file_inclination_matrix =data_process_folder+inclination_matrixfile
+
 # *Adyacent Matrix File
 adjacentmatrixfile ="AdjacentMatrix.dat"
 data_process_file_adjacentmatrix =data_process_folder+adjacentmatrixfile

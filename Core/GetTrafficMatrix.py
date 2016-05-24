@@ -35,7 +35,7 @@ def run_main():
     Status=np.zeros((NumberOfStations,2))
 
     #import diccionary for id and position
-    superdict = IdDictionary.run_main()
+    [superdict,superlista] = IdDictionary.run_main()
 
     contador=-1
     with open(InputFile,"r") as fid:
@@ -50,7 +50,6 @@ def run_main():
 
             for element in p:
                 posicion = int((superdict[element.strip()])['position'])
-                print posicion
                 Matrix[contador,posicion]=1
                 Matrix [posicion,contador]=1
             contador=contador+1

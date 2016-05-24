@@ -1,7 +1,22 @@
+#!/usr/bin/env python
+
+#title           :GetTrafficMatrix.py
+#description     :This script process PReMatrix file to get Adjacent matrix of netwok.
+#author          :Lucia & Rodrigo
+#date            :2016-05-06
+#version         :0.1
+#usage           :python pyscript.py
+#notes           :
+#python_version  :2.7.6
+#==============================================================================
+# UPC-EETAC MASTEAM 2015-2016 BIGDATA                                         #
+# Group former by Ana, Lucia, Joan and Rodrigo                                #
+#==============================================================================
+
+import config as conf
 import numpy as np
-from collections import OrderedDict
-import os
 import math
+import IdDictionary
 
 #function to calculate distance
 def Cal_distance( lon1,  lat1,   lon2,  lat2):
@@ -19,66 +34,50 @@ def Cal_Height( height1, height2):
     difference=height1-height2
     return difference
 
-number_stations=465
-alt_matrix=np.zeros((number_stations, number_stations))
-height_matrix=np.zeros((number_stations, number_stations))
-neighbours_dic={}
-i=0
+def run_main():
+    [superdict,superlista] = IdDictionary.run_main()
+    OutputFile_distance = conf.data_process_file_distancematrix
+    OutputFile_height = conf.data_process_file_heightmatrix
+    OutputFile_inclination = conf.data_process_file_inclination_matrix
 
-with open("Process_Data/Prematrix_data_python_fix.txt", "r") as fid:
-    for line in fid:
-        f=line.split(';')
-        id=f[0]
-        height=f[2]
-        latitude=f[3]
-        longitude=f[4]
-        partners=f[5]
-        all_partners=partners.split(',')
-        neighbours_dic[i]=(float(longitude), float(latitude), float(height))
-        i+=1
-print(neighbours_dic)
+    number_stations=465
+    alt_matrix=np.zeros((number_stations, number_stations))
+    distance_matrix=np.zeros((number_stations, number_stations))
+    i=0
 
-#distance and height alt_matrix
-for n in neighbours_dic:
-    ne=n+1
-    for ne in range(ne,len(neighbours_dic)):
-        result = Cal_distance(neighbours_dic.values()[n][0], neighbours_dic.values()[n][1],neighbours_dic.values()[ne][0],neighbours_dic.values()[ne][1])
-        alt_matrix[n,ne]=result
-        alt_matrix[ne,n]=result
-        result2 = Cal_Height(neighbours_dic.values()[n][2],neighbours_dic.values()[ne][2]) #origin-destiny
-        height_matrix[n,ne]=result2 #n=origin, ne=destiny
-        height_matrix[ne,n]=result2
-minval=np.min(alt_matrix[np.nonzero(alt_matrix)])
-print("minimal distance value: "+str(minval)) #mayor distancia entre dos estaciones: 11.385 km
-print("max denivel value: "+str(np.amax(height_matrix))) #mayor desnivel: 138 metros sobre el nivel del mar
-i,j=np.unravel_index(height_matrix.argmax(),height_matrix.shape)
-print(height_matrix[i,j])
-print(alt_matrix[i,j])
+    #distance and height alt_matrix
+    for i in range (1,number_stations):
+        for j in range (i+1,number_stations):
+            lon1=float(superlista[i]['long'])
+            lat1=float(superlista[i]['lat'])
+            height1=float(superlista[i]['alt'])
 
-#inclinacion
-np.seterr(divide='ignore', invalid='ignore')
-inclination= np.divide(height_matrix, alt_matrix)
-inclination[inclination == np.inf] = 0
-inclination2 = np.nan_to_num(inclination)
+            lon2=float(superlista[j]['long'])
+            lat2=float(superlista[j]['lat'])
+            height2=float(superlista[j]['alt'])
 
-print(np.amax(inclination2))
-i,j=np.unravel_index(inclination2.argmax(),inclination2.shape)
-print("i:"+str(i))
-print("j:"+str(j))
-print("distance: "+str(alt_matrix[i,j]) +" m distance")
-print("desnivel: "+str(height_matrix[i,j]) +" m height")
+            distance = Cal_distance(lon1,  lat1,   lon2,  lat2)
+            height = Cal_Height(height1, height2)
+            distance_matrix[i,j]=distance
+            distance_matrix[j,i]=distance
+            alt_matrix[i,j]=height
+            alt_matrix[j,i]=-height
 
-np.savetxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt', alt_matrix, delimiter=' ',newline='\n',fmt='%i')
-np.savetxt('Process_Data/RDD/AllheightMatrix_data_python.txt', height_matrix, delimiter=' ',newline='\n',fmt='%i')
-np.savetxt('Process_Data/RDD/AllinclinationMatrix_data_python.txt', inclination, delimiter=' ',newline='\n',fmt='%f')
-'''
-for n in neighbours_tup:
-    for ne in neighbours_tup[n][2]:
-        n_ne=(int(ne))
-        #print(neighbours_tup[n][0]-neighbours_tup[n_ne][0])
-        print(n_ne)
-        dlat=((neighbours_tup[n][0]-neighbours_tup[n_ne][0])*(pi/180))
-        dlon=((neighbours_tup[n][1]-neigMismatch between array dtype ('float64') and format specifierhbours_tup[n_ne][1])*(pi/180))
-        lat=(neighbours_tup[n][0]*(pi/180))
-        lon=(neighbours_tup[n][1]*(pi/180))
-'''
+
+    # minval=np.min(distance_matrix[np.nonzero(distance_matrix)])
+    # print("minimal distance value: "+str(minval)) #mayor distancia entre dos estaciones: 11.385 km
+    # print("max denivel value: "+str(np.amax(alt_matrix))) #mayor desnivel: 138 metros sobre el nivel del mar
+    #
+    # i,j=np.unravel_index(alt_matrix.argmax(),alt_matrix.shape)
+    # print(alt_matrix[i,j])
+    # print(distance_matrix[i,j])
+
+    #inclinacion
+    np.seterr(divide='ignore', invalid='ignore')
+    inclination= np.divide(alt_matrix, distance_matrix)
+    inclination[inclination == np.inf] = 0
+
+
+    np.savetxt(OutputFile_distance, distance_matrix, delimiter=' ',newline='\n',fmt='%i')
+    np.savetxt(OutputFile_height, alt_matrix, delimiter=' ',newline='\n',fmt='%i')
+    np.savetxt(OutputFile_inclination, np.nan_to_num(inclination), delimiter=' ',newline='\n',fmt='%f')

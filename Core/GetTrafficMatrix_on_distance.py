@@ -20,13 +20,14 @@
 ###################################################################################
 
 import numpy as np
-from io import StringIO
-from collections import OrderedDict
+import config as conf
 
 
 NumberOfStations=465
 Matrix=np.zeros((NumberOfStations,NumberOfStations))
 Status=np.zeros((NumberOfStations,2))
+InputFile = conf.data_process_file_prematrix
+OutputFile= conf.data_process_file_adjacentmatrix
 
 Distance_matrix = np.loadtxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt',delimiter=' ',dtype=np.dtype('int32'))
 

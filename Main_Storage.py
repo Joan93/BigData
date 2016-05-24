@@ -54,6 +54,7 @@ else:
 import Core.ProcessData as CreateSuperFiles
 import Core.GetTrafficMatrix as AdjacentMatrix
 import Core.IdDictionary as IdDict
+import Core.DistanceMatrix_data_python as DHI_matrix
 
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main(False)
@@ -67,8 +68,14 @@ import Core.IdDictionary as IdDict
 if(conf.spark_use):
     fix_error.fix()
 
-#Create link matrix, Adjacent matrix
-AdjacentMatrix.run_main()
+#Distance, Height, inclination matrix
+#DHI_matrix.run_main()
+
+#Create Adjacent matrix based on neighbours
+#AdjacentMatrix.run_main()
+
+#Create Adjacent matrix based on neighbours
+
 
 #Process SuperFiles
 #CreateSuperFiles.run_main()
