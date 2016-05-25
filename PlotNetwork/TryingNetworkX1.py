@@ -28,7 +28,7 @@ ListOfEdges =[]
 
 ContadorFilas=0
 ContadorColumnas=0
-with open("Process_Data/RDD/TrafficMatrix_data_python_BIG.txt","r") as fid:
+with open("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/TrafficMatrix_data_python_BIG.txt","r") as fid:
     for line in fid:
         ContadorColumnas=0
         f=line.split(' ')
@@ -56,7 +56,7 @@ for EdgePair in ListOfEdges:
 print G.nodes()
 print G.edges()
 nx.draw(G)
-plt.savefig("Process_Data/RDD/degree_histogram.png")
+plt.savefig("/home/ns3/Documents/BicingProject/BigData/PlotNetwork/degree_histogram.png")
 #nx.draw_circular(G)
 #nx.draw_spectral(G)
 
