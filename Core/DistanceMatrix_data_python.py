@@ -46,7 +46,7 @@ def run_main():
     i=0
 
     #distance and height alt_matrix
-    for i in range (1,number_stations):
+    for i in range (0,number_stations):
         for j in range (i+1,number_stations):
             lon1=float(superlista[i]['long'])
             lat1=float(superlista[i]['lat'])

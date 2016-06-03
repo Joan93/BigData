@@ -23,63 +23,55 @@ import numpy as np
 import config as conf
 
 
-NumberOfStations=465
-Matrix=np.zeros((NumberOfStations,NumberOfStations))
-Status=np.zeros((NumberOfStations,2))
+def run_main():
 
-InputFile = conf.data_process_file_prematrix
-OutputFile= conf.data_process_file_adjacentmatrix_distance
+    NumberOfStations=465
+    Matrix=np.zeros((NumberOfStations,NumberOfStations))
 
-Distance_matrix = np.loadtxt('Process_Data/RDD/AlldistanceMatrix_data_python.txt',delimiter=' ',dtype=np.dtype('int32'))
+    InputFile = conf.data_process_file_distancematrix
+    OutputFile= conf.data_process_file_adjacentmatrix_distance
+    distance_neigbours = 500
+    min_neigbours=4
 
-contador=0
-nummax_enlaces =0
-nummin_enlaces=0
-media=0
-with open("Process_Data/Prematrix_data_python_fix.txt","r") as fid:
-    for line in fid:
-        f=line.split(';')
-        id=f[0]
-        partners=f[5]
-        status=f[7]
-        Status[contador - 1, 0]=id
-        if status=="OPN":
-            Status[contador-1,1]=1
-        else:
-            Status[contador-1,1]=0
+    Distance_matrix = np.loadtxt(InputFile,delimiter=' ',dtype=np.dtype('int32'))
 
-        num_enlaces = 0
-        for x in range(contador+1, NumberOfStations-1):
+    nummax_enlaces=0
+    factor=1
 
-            if(Distance_matrix[contador,x]<1001):
+    total_enlaces=0
+    i=0
+    while(i<NumberOfStations-1):
+        num_enlaces=0
+        distance_range=factor*distance_neigbours
+        print "range: "+str(distance_range)
+
+        for j in range (0,NumberOfStations):
+            print Distance_matrix[i,j]
+            if(Distance_matrix[i,j]<(distance_range+1)):
                 num_enlaces+=1
-                Matrix[contador,x]=1
-                Matrix [x,contador]=1
+                Matrix[i,j]=1
+                Matrix [j,i]=1
+
+        if(num_enlaces<(min_neigbours+1) and num_enlaces>=(NumberOfStations-i)):
+            factor=factor*2
+            print "["+str(i)+","+str(j)+"] : factor "+str(factor)
+        else:
+            print "["+str(i)+","+str(j)+"] : enlaces "+str(num_enlaces)
+            if(num_enlaces>nummax_enlaces):
+                nummax_enlaces=num_enlaces
+            factor=1
+            total_enlaces+=num_enlaces
+            i+=1
 
 
-        print ("Numero enlaces: "+str(num_enlaces))
-        if(num_enlaces>nummax_enlaces):
-            nummax_enlaces=num_enlaces
+    print ("Numero enlacesmax: "+str(nummax_enlaces))
+    print ("Numero total: "+str(total_enlaces))
+    print ("Numero medio enlaces: "+str(total_enlaces/NumberOfStations))
 
-        if(num_enlaces<nummin_enlaces):
-            nummin_enlaces=num_enlaces
-
-        media +=num_enlaces
-        contador+=1
-        #    print element
-        #print "\n \n"
-
-print("Numero medio de enlaces: "+str(float(media/NumberOfStations)))
-print("Numero max de enlaces: "+str(nummax_enlaces))
-print("Numero min de enlaces: "+str(nummin_enlaces))
-
-#elimino aquellas estaciones que no estan disponibles
-index=0
-for element in Status[:,1]:
-    if element == 0:
-        Matrix[:,index]=0
-        Matrix[index,:]=0
-    index = index + 1
+    #
+    # print("Numero medio de enlaces: "+str(float(media/NumberOfStations)))
+    # print("Numero max de enlaces: "+str(nummax_enlaces))
+    # print("Numero min de enlaces: "+str(nummin_enlaces))
 
 
-np.savetxt('Process_Data/RDD/TrafficMatrix_data_3km.txt', Matrix, delimiter=' ',newline='\n',fmt='%i')
+    np.savetxt(OutputFile, Matrix, delimiter=' ',newline='\n',fmt='%i')
