@@ -12,11 +12,12 @@ if ("exec" not in sys.argv):
  #Autoexecute SDK
  import os
  import re
- os.system('/home/lucia/spark-1.3.0-bin-hadoop2.4/bin/spark-submit statistics.py exec')
-
+ os.system('/home/lucia/spark-1.3.0-bin-hadoop2.4/bin/spark-submit Statistics/statistics.py exec')
+ #os.system('/home/lucia/spark-1.3.0-bin-hadoop2.4/python/pyspark/mllib/stat statistics.py exec')
 # Programa
 else:
     from pyspark.mllib.stat import Statistics
+    from decimal import Decimal as D
     from pyspark import SparkContext
     from operator import add
     from pyspark.sql import SQLContext
@@ -56,25 +57,22 @@ else:
     # carreguem fitxer
 
     '''
-    file=sc.textFile("Process_Data/RDD/SuperFile/superfile.dat")
-    row = file.map(lambda line:line.split(' ')[1:len(line)]).filter(lambda x: x.startswith(' '),file) #http://www.u.arizona.edu/~erdmann/mse350/topics/list_comprehensions.html
-    row_lst=row.collect() #converts rdd to list
-    print(row_lst)
-    ln=[]
-    v=[]
-    for l in row_lst:
-        for sl in l:
-            ln.append(int(sl))
-        vt=Vectors.dense(ln)
-        v.append(vt)
-    #v=Vectors.dense(row_lst)
-    listings=sc.parallelize(v)
-    summary = Statistics.colStats(listings)
+
+    file=sc.textFile("Process_Data/SuperFile/superfile.dat")
+    row = file.map(lambda line:line.split(' ')[1:len(line)]).map(lambda xs: [float(x) for x in xs])
+    row_list= row.collect() #transforms to list
+    print(row_list)
+    print(row_list[0])
+
+    for i in range(0,len(row_list)):
+        v=Vectors.dense(row_list[i])
+        rows = sc.parallelize([v])
+        i+=1
+
+    summary = Statistics.colStats(rows)
 
     print("media:"),(summary.mean())
     print("varianza:"),(summary.variance())
     print ("max:"),(summary.max())
     print ("min:"),(summary.min())
     print("non Zeros:"),(summary.numNonzeros())
-
-
