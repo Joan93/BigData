@@ -23,15 +23,28 @@ import numpy as np
 import config as conf
 
 
-def run_main():
+def run_main(num):
 
     NumberOfStations=465
     Matrix=np.zeros((NumberOfStations,NumberOfStations))
 
     InputFile = conf.data_process_file_distancematrix
-    OutputFile= conf.data_process_file_adjacentmatrix_distance
-    distance_neigbours = 500
-    min_neigbours=4
+
+
+    if(num==1000):
+        distance_neigbours = conf.distance_1000
+        OutputFile= conf.data_process_file_adjacentmatrix_distance_1000
+    elif(num==300):
+        distance_neigbours = conf.distance_300
+        OutputFile= conf.data_process_file_adjacentmatrix_distance_300
+    else:
+        distance_neigbours = conf.distance_1000
+        OutputFile= conf.data_process_file_adjacentmatrix_distance
+
+    print OutputFile
+    print num
+
+    min_neigbours=conf.min_neigbours
 
     Distance_matrix = np.loadtxt(InputFile,delimiter=' ',dtype=np.dtype('int32'))
 
@@ -40,23 +53,24 @@ def run_main():
 
     total_enlaces=0
     i=0
-    while(i<NumberOfStations-1):
+    while(i<NumberOfStations):
+
         num_enlaces=0
         distance_range=factor*distance_neigbours
-        print "range: "+str(distance_range)
+        #print "range: "+str(distance_range)
 
         for j in range (0,NumberOfStations):
-            print Distance_matrix[i,j]
-            if(Distance_matrix[i,j]<(distance_range+1)):
+            #print Distance_matrix[i,j]
+            if(Distance_matrix[i,j]<(distance_range+1) and i!=j):
                 num_enlaces+=1
                 Matrix[i,j]=1
-                Matrix [j,i]=1
+                Matrix[j,i]=1
 
-        if(num_enlaces<(min_neigbours+1) and num_enlaces>=(NumberOfStations-i)):
+        if(num_enlaces<(2*min_neigbours+1)):
             factor=factor*2
-            print "["+str(i)+","+str(j)+"] : factor "+str(factor)
+            #print "["+str(i)+","+str(j)+"] : factor "+str(factor)
         else:
-            print "["+str(i)+","+str(j)+"] : enlaces "+str(num_enlaces)
+            #print "["+str(i)+","+str(j)+"] : enlaces "+str(num_enlaces)
             if(num_enlaces>nummax_enlaces):
                 nummax_enlaces=num_enlaces
             factor=1
@@ -64,9 +78,9 @@ def run_main():
             i+=1
 
 
-    print ("Numero enlacesmax: "+str(nummax_enlaces))
-    print ("Numero total: "+str(total_enlaces))
-    print ("Numero medio enlaces: "+str(total_enlaces/NumberOfStations))
+    print ("Numero enlacesmax: "+str(nummax_enlaces/2))
+    print ("Numero total: "+str(total_enlaces/2))
+    print ("Numero medio enlaces: "+str((total_enlaces/2)/NumberOfStations))
 
     #
     # print("Numero medio de enlaces: "+str(float(media/NumberOfStations)))

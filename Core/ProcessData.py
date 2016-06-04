@@ -87,8 +87,13 @@ def run_main():
         line=""
 
         #print vector
+        primercaso=True
         for x in np.nditer(vector):
-            line+=str(x)+" "
+            if(primercaso):
+                line+=str(x)
+                primercaso=False
+            else:
+                line+=" "+str(x)
 
         line = str(timestamp)+";"+str(pseudotime)+" "+str(line)+"\n"
         fw.write(line)

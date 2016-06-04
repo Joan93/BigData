@@ -70,10 +70,20 @@ data_process_file_heightmatrix =data_process_folder+height_matrixfile
 inclination_matrixfile ="InclinationMatrix.dat"
 data_process_file_inclination_matrix =data_process_folder+inclination_matrixfile
 
+
+distance_300=300
+distance=500
+distance_1000=1000
+min_neigbours=4
+
 # *Adyacent Matrix File
 adjacentmatrixfile ="AdjacentMatrix.dat"
 data_process_file_adjacentmatrix =data_process_folder+adjacentmatrixfile
 adjacentmatrixfile_distance ="AdjacentMatrix_distance.dat"
 data_process_file_adjacentmatrix_distance =data_process_folder+adjacentmatrixfile_distance
-weight_edgematrix ="WeightMatrix_distance.dat"
-data_process_file_weight_edgematrix =data_process_folder+adjacentmatrixfile
+adjacentmatrixfile_distance_300 ="AdjacentMatrix_distance_300.dat"
+data_process_file_adjacentmatrix_distance_300 =data_process_folder+adjacentmatrixfile_distance_300
+adjacentmatrixfile_distance_1000 ="AdjacentMatrix_distance_1000.dat"
+data_process_file_adjacentmatrix_distance_1000 =data_process_folder+adjacentmatrixfile_distance_1000
+weight_edgematrix ="WeightMatrix.dat"
+data_process_file_weight_edgematrix =data_process_folder+weight_edgematrix

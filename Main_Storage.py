@@ -56,7 +56,8 @@ import Core.GetTrafficMatrix as AdjacentMatrix
 import Core.IdDictionary as IdDict
 import Core.DistanceMatrix_data_python as DHI_matrix
 import Core.GetTrafficMatrix_on_distance as AdjacentMatrixDistance
-
+import Core.AdjMatrix_Analisys as Analy
+import Core.WeightMatrix as Weightgen
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main(False)
 
@@ -70,16 +71,25 @@ if(conf.spark_use):
     fix_error.fix()
 
 #Distance, Height, inclination matrix
-DHI_matrix.run_main()
+#DHI_matrix.run_main()
 
 #Create Adjacent matrix based on neighbours
 #AdjacentMatrix.run_main()
 
 #Create Adjacent matrix based on neighbours distance
-AdjacentMatrixDistance.run_main()
+# AdjacentMatrixDistance.run_main(0)
+# AdjacentMatrixDistance.run_main(300)
+# Analy.run_main(conf.data_process_file_adjacentmatrix_distance_300)
+# AdjacentMatrixDistance.run_main(1000)
 
+#weight matrix
+Weightgen.run_main()
 
 #Process SuperFiles
 #CreateSuperFiles.run_main()
+
+#mostrar datos
+
+#estadisticas de datos
 
 
