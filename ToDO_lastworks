@@ -1,7 +1,19 @@
-** Acordarse de rear un script de test que chekee si hay carpetas. Si no las hay que las cree
+** Acordarse de crear un script de test que cheke si hay carpetas. Si no las hay que las cree
 
 ** Acordarse de crear en algun sitio sea principio o en cada apartado borrado de los archivos temporales
     -Una idea es una idea e sun parametro del config para habilitar o no esta informacion en storage.
 
-** Acordarse en lso archivos de get Adjacetmatrix el precalcular el numero de estaciones... sobretodo apra cuando no solo sea Barcelona
+** Acordarse en lso archivos de get Adjacetmatrix el precalcular el numero de estaciones... sobretodo para cuando no solo sea Barcelona
+    -Num estaciones definido por ciudad
+
+** Terminar Analisis de redes y print e red, guarado
+
+** Estadisticas Lucia
+
+**Estadisticas python
+
+**print de datods diarios
+
+** LEarning machine??¿¿
+
 
