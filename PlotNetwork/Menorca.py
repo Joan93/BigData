@@ -1,3 +1,5 @@
+
+
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,11 +8,11 @@ from mpl_toolkits.basemap import Basemap as Basemap
 import Core.IdDictionary as IdDictionary
 
 [superdict,superlista] = IdDictionary.run_main()
-a=superlista[5]['alt']
-b=superdict['496']['alt']
-print b
+#a=superlista[5]['alt']
+#b=superdict['496']['alt']
+#print b
 
-stations = np.genfromtxt("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/Prematrix_data_python2.txt",
+stations = np.genfromtxt("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/Prematrix_data_python.txt",
                          delimiter=';',
                          dtype=[('lat', np.float32), ('lon', np.float32),('id', np.int16)],
                          usecols=(3, 4,0))
@@ -31,7 +33,7 @@ pos={}
 counter=0
 for element in ids:
     pos[element]=(mx[counter],my[counter])
-    altura.append(superdict[str(element)]['alt'])
+    altura.append(float(superdict[str(element)]['alt']))
     counter=counter+1
 # pos['a']=(mx[0],my[0])
 # pos['b']=(mx[1],my[1])
@@ -53,7 +55,9 @@ ContadorColumnas=0
 
 G=nx.Graph()
 
-with open("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/TrafficMatrix_data_python.txt","r") as fid:
+#with open("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/TrafficMatrix_data_python.txt","r") as fid:
+with open("/home/ns3/Documents/BicingProject/BigData/Process_Data/AdjacentMatrix.dat", "r") as fid:
+
     for line in fid:
         ContadorColumnas=0
         f=line.split(' ')
@@ -94,11 +98,43 @@ for EdgePair in ListOfEdges:
 # G.add_edge('a','c')
 # G.add_node('d')
 color=[]
+
+min_altura=float(min(altura))
+max_altura=float(max(altura))
+
+step=(max_altura-min_altura)/5
+
+rango0=min_altura
+rango1=min_altura+step*1
+rango2=min_altura+step*2
+rango3=min_altura+step*3
+rango4=min_altura+step*4
+rango5=max_altura
+
+#print min_altura
+#print max_altura
+#print step
+#print "/n"
+#print rango0
+#print rango1
+#print rango2
+#print rango3
+#print rango4
+#print rango5
+
+#Mientras el valor sea  mas pequeno, sera mas morado.
+#Mientras el valor de altura sea mas alto, sera mas rojo
 for element in altura:
-    if float(element)>10:
-        color.append('blue')
-    else:
-        color.append('coral')
+    if element>=rango0 and element<rango1:
+        color.append(10)
+    if element>= rango1 and element<rango2:
+        color.append(30)
+    if element>=rango2 and element<rango3:
+        color.append(50)
+    if element>=rango3 and element<rango4:
+        color.append(70)
+    if element>=rango4 and element<=rango5:
+        color.append(90)
 
 #color=['blue','blue','blue','coral','blue','blue','blue','blue','blue','blue']
 print color

@@ -15,6 +15,8 @@ print degree_sequence
 #print "Degree sequence", degree_sequence
 dmax=max(degree_sequence)
 
+
+
 plt.loglog(degree_sequence,'b-',marker='o')
 plt.title("Degree rank plot")
 plt.ylabel("degree")
