@@ -17,7 +17,6 @@ if ("exec" not in sys.argv):
 # Programa
 else:
     from pyspark.mllib.stat import Statistics
-    from decimal import Decimal as D
     from pyspark import SparkContext
     from operator import add
     from pyspark.sql import SQLContext
@@ -27,36 +26,21 @@ else:
     import re
 
     sc=SparkContext()
-    '''
-    # correlacion
-    print (" ")
-    print (" ")
-    print ("matriz de correlacion:")
-    print (" ")
-    print(Statistics.corr(rows, method="pearson")
 
-    '''
+    vn = np.array([21, 10, 2, 2, 7])
+    v0 = Vectors.dense(vn)
+    v1 = Vectors.dense([22, 10, 2, 3, 7])
+    v2 = Vectors.dense([23, 10, 2, 3, 7])
 
-    file=sc.textFile("Process_Data/SuperFile/superfile.dat")
+    rows = sc.parallelize([v0, v1, v2])
 
-    row = file.map(lambda line:line.split(' ')[1:len(line)]).map(lambda xs: [float(x) for x in xs])
-    row_list= row.collect() #transforms to list
-    print(row_list)
-
-    #matrix
-    w, h = 1,38
-    new_list = [[0 for x in range(w)] for y in range(h)]
-
-    for i in range(0,len(row_list)):
-        new_list[i][:]=Vectors.dense(row_list[i])
-        i+=1
-    rows = sc.parallelize([new_list])
-    print(rows)
     summary = Statistics.colStats(rows)
 
 
+    print ("Datos estadistica")
+    # estadisticas
     print("media:"),(summary.mean())
     print("varianza:"),(summary.variance())
+    print("non Zeros:"),(summary.numNonzeros())
     print ("max:"),(summary.max())
     print ("min:"),(summary.min())
-    print("non Zeros:"),(summary.numNonzeros())
