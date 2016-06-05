@@ -26,7 +26,7 @@ import re
 import numpy as np
 import config as conf
 
-# **** Script in SPARK ****
+
 
 data_folder = conf.data_process_historical
 data_process_folder_superfile = conf.data_process_folder_superfile

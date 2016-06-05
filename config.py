@@ -65,6 +65,7 @@ data_process_folder_superfile_file_data = data_process_folder_superfile+"superfi
 superstation="Station/"
 data_process_folder_station = data_process_folder+superstation
 
+
 # *Distance Matrix File
 distancematrixfile ="DistanceMatrix.dat"
 data_process_file_distancematrix =data_process_folder+distancematrixfile
@@ -98,3 +99,7 @@ weight_edgematrix_distance ="WeightMatrix_distance.dat"
 data_process_file_weight_edgematrix_distance =data_process_folder+weight_edgematrix_distance
 weight_edgematrix_ref ="WeightMatrix_ref.dat"
 data_process_file_weight_edgematrix_ref =data_process_folder+weight_edgematrix_ref
+
+#stadistics files
+stadistics_folder ="/Stadistics_Data/"
+data_process_stadistics_folder =data_process_folder+stadistics_folder

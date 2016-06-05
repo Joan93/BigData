@@ -60,11 +60,13 @@ import Core.AdjMatrix_Analisys as Analy
 import Core.WeightMatrix as Weightgen
 import Core.WeightMatrix_adj as WeightgenAdj
 import Core.Stadistics_Python as Stadistics
+import Core.Diferential_data as SuperFile_dirivate
+
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main(False)
 
 #Prematrix process
-#ProcessJson_fixmatrix.run_main()
+# ProcessJson_fixmatrix.run_main()
 
 #Prematri
 
@@ -73,15 +75,15 @@ if(conf.spark_use):
     fix_error.fix()
 
 #Distance, Height, inclination matrix
-#DHI_matrix.run_main()
+# DHI_matrix.run_main()
 
 #Create Adjacent matrix based on neighbours
-#AdjacentMatrix.run_main()
+# AdjacentMatrix.run_main()
 
 #Create Adjacent matrix based on neighbours distance
 # AdjacentMatrixDistance.run_main(500)
 # AdjacentMatrixDistance.run_main(300)
-# Analy.run_main(conf.data_process_file_adjacentmatrix_distance_300)
+# #Analy.run_main(conf.data_process_file_adjacentmatrix_distance_300)
 # AdjacentMatrixDistance.run_main(1000)
 
 #weight matrix
@@ -90,8 +92,10 @@ if(conf.spark_use):
 # WeightgenAdj.run_main(1000)
 # WeightgenAdj.run_main(500)
 # WeightgenAdj.run_main(-1)
+
 #Process SuperFiles
-CreateSuperFiles.run_main()
+# CreateSuperFiles.run_main()
+#SuperFile_dirivate.run_main()
 
 #mostrar datos
 

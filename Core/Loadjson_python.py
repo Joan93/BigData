@@ -40,55 +40,60 @@ def run_main(alone):
     for file in files:
        # data_raw = sc.textFile(path+"/"+file)
 
+        try :
 
-        #fichero JSON con el que vamos a trabajar
-        with open(path+"/"+file) as data_file:
-            data = json.load(data_file)
-        time=data["updateTime"]
+            #fichero JSON con el que vamos a trabajar
+            with open(path+"/"+file) as data_file:
+                data = json.load(data_file)
+            time=data["updateTime"]
 
-        hora=datetime.datetime.fromtimestamp(time).strftime('%H')
-        min=datetime.datetime.fromtimestamp(time).strftime('%M')
+            hora=datetime.datetime.fromtimestamp(time).strftime('%H')
+            min=datetime.datetime.fromtimestamp(time).strftime('%M')
 
-        dia = datetime.datetime.fromtimestamp(time).weekday()
+            dia = datetime.datetime.fromtimestamp(time).weekday()
 
-        newdia=dia*1000
-        newhora=int(hora)*60
+            newdia=dia*1000
+            newhora=int(hora)*60
 
-        horasmin=(int(min)+int(newhora))/3
-
-
-        totaltime=newdia+horasmin
+            horasmin=(int(min)+int(newhora))/3
 
 
-        #fichero donde guardamos los nuevos datos
-        #f = open("Process_Data/Python/"+file+".txt", 'w+')
+            totaltime=newdia+horasmin
 
-        line= str(time)+"_"+str(totaltime).zfill(4)
 
-        filename = file.split(".")
-        f = open(path_save+line+".txt", 'w+')
+            #fichero donde guardamos los nuevos datos
+            #f = open("Process_Data/Python/"+file+".txt", 'w+')
 
-        first = True
+            line= str(time)+"_"+str(totaltime).zfill(4)
 
-        for i in xrange(len(data["stations"])):
+            filename = file.split(".")
+            f = open(path_save+line+".txt", 'w+')
 
-            f.write(data["stations"][i]["id"])
-            f.write(" ")
-            f.write(data["stations"][i]["bikes"])
-            f.write(" ")
-            f.write(data["stations"][i]["status"]+"\n")
+            first = True
 
-        if(conf.verbose):
-            porcentaje = float(j*100/total_files)
-            line_porc="|"
-            for m in range(0,int(porcentaje)):
-                line_porc+="="
-            print line_porc.rstrip('\n')+"| "+str(porcentaje)+"% \n \n \n"
-            print("Procesando ... ")
+            for i in xrange(len(data["stations"])):
 
-        f.close()
+                f.write(data["stations"][i]["id"])
+                f.write(" ")
+                f.write(data["stations"][i]["bikes"])
+                f.write(" ")
+                f.write(data["stations"][i]["status"]+"\n")
 
-        j+=1
+            if(conf.verbose):
+                porcentaje = float(j*100/total_files)
+                line_porc="|"
+                for m in range(0,int(porcentaje)):
+                    line_porc+="="
+                print line_porc.rstrip('\n')+"| "+str(porcentaje)+"% \n \n \n"
+                print("Procesando ... ")
+
+            f.close()
+
+            j+=1
+
+        except :
+            print "error archivo: "+file
+            f.close()
 
 
 #run_main(True)

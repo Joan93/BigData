@@ -13,27 +13,12 @@ data_process_folder = "Process_Data/RDD/"
 # Auto-run Pycharm/python to Spark
 import sys
 import os
-if ("exec" not in sys.argv):
- #execute the script vias Spark
- os.system(spark_path+" "+script_file+" exec")
+import datetime
 
-else:
-     # **** Script in SPARK ****
+your_timestamp = 1458215648
+date = datetime.datetime.fromtimestamp(your_timestamp)
+print date
 
+day_of_year = date.strftime('%j')
 
-    # sc is an existing SparkContext.
-    from pyspark import SparkContext
-    from pyspark.sql import SQLContext
-    import json
-    import datetime
-    import os
-
-    sc=SparkContext()
-    sqlContext = SQLContext(sc)
-
-    #Generar estadisticas
-
-    path = os.getcwd()+"/Data"
-    files = os.listdir(path)
-
-    print " *** END ***"
+print day_of_year
