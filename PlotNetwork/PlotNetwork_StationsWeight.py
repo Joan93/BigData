@@ -1,5 +1,10 @@
 # Ana Cristina Hernandez Gomez
 
+# cargo latitudes y longitudes cargadas para plotear el mapa
+# cargo la informacion de ocupacion de todas las estaciones en un determinado momento del dia
+# cargo la informacion de peso para cada enlace (a traves de la matriz de pesos)
+# cargo la matriz de adjacencia para poder determinar las conexiones.
+
 #***************************************************************************************
 # Para dibujar los edges hay que quitar el comentario en:
 # linea: 75, 76, 86, 87
@@ -19,10 +24,9 @@ def run_main():
                              dtype=[('lat', np.float32), ('lon', np.float32),('id', np.int16)],
                              usecols=(3, 4,0))
 
-    ocupation = np.genfromtxt("/home/ns3/Documents/BicingProject/BigData/Process_Data/Data_history/1458255793_4001.txt",
-                             delimiter=' ',
-                             dtype=[('ocupacionabsoluta', np.float32), ('status', np.float32)],
-                             usecols=(1, 2))
+    weights = np.genfromtxt("/home/ns3/Documents/BicingProject/BigData/Process_Data/WeightMatrix_300.dat",
+                              delimiter=' ')
+    print weights[1,2]
 
     m = Basemap(llcrnrlon=2.031819,llcrnrlat=41.334322,urcrnrlon=2.240496,urcrnrlat=41.496240, resolution = 'l',epsg=5520)
     #http://server.arcgisonline.com/arcgis/rest/services
@@ -31,9 +35,7 @@ def run_main():
     lats=stations['lat']
     lons=stations['lon']
     ids=stations['id']
-    OcupacionAbsoluta=ocupation['ocupacionabsoluta']
-    Status=ocupation['status']
-    OcupacionPorcentual=[]
+
 
     # convert lat and lon to map projection
     mx,my=m(lons,lats)
@@ -42,11 +44,6 @@ def run_main():
     counter=0
     for element in ids:
         pos[element]=(mx[counter],my[counter])
-        if int(superdict[str(element)]['total'])==0:
-            OcupacionPorcentual.append(100)
-            #print superdict[str(element)]['id']
-        else:
-            OcupacionPorcentual.append(int(round((float(OcupacionAbsoluta[counter])/float(superdict[str(element)]['total']))*100)))
         counter=counter+1
 
     #print "/n"
@@ -54,12 +51,12 @@ def run_main():
 
     Tuple = ()
     ListOfEdges = []
+    ListOfWeights=[]
 
     ContadorFilas = 0
     ContadorColumnas = 0
 
     G = nx.Graph()
-
 
 
     # with open("/home/ns3/Documents/BicingProject/BigData/Process_Data/RDD/TrafficMatrix_data_python.txt","r") as fid:
@@ -74,8 +71,34 @@ def run_main():
                 if element == "1":
                     index1 = ids[ContadorFilas]
                     index2 = ids[ContadorColumnas]
-                    #ListOfEdges.append((index1, index2))
-                    #ListOfEdges.append((index1, index2))
+                    weight=weights[ContadorFilas,ContadorColumnas]
+                    if weight >= 0 and weight < 100:
+                        colors = 10
+                    if weight >= 100 and weight < 200:
+                        colors = 20
+                    if weight >= 200 and weight < 300:
+                        colors = 30
+                    if weight >= 300 and weight < 400:
+                        colors = 40
+                    if weight >= 400 and weight <= 500:
+                        colors = 50
+                    if weight >= 500 and weight < 600:
+                        colors = 60
+                    if weight >= 600 and weight < 700:
+                        colors = 70
+                    if weight >= 700 and weight < 800:
+                        colors = 80
+                    if weight >= 800 and weight < 900:
+                        colors = 90
+                    if weight >= 900 and weight < 1000:
+                        colors = 100
+                    if weight>=1000:
+                        colors=0
+                    ListOfWeights.append((colors))
+                    ListOfEdges.append((index1, index2,colors))
+                    ListOfWeights.append((colors))
+                    ListOfEdges.append((index1, index2,colors))
+
 
                 index1 = ids[ContadorFilas]
                 index2 = ids[ContadorColumnas]
@@ -85,57 +108,20 @@ def run_main():
                 ContadorColumnas = ContadorColumnas + 1
             ContadorFilas = ContadorFilas + 1
 
-    #for EdgePair in ListOfEdges:
-        #G.add_edge(EdgePair[0], EdgePair[1])
 
-    color = []
+    print len(ListOfEdges), len(ListOfWeights)
 
-    #min_altura = float(min(altura))
-    #max_altura = float(max(altura))
-
-    #step = (max_altura - min_altura) / 5
-
-    #rango0 = min_altura
-    #rango1 = min_altura + step * 1
-    #rango2 = min_altura + step * 2
-    #rango3 = min_altura + step * 3
-    #rango4 = min_altura + step * 4
-    #rango5 = max_altura
-
-    # print min_altura
-    # print max_altura
-    # print step
-    # print "/n"
-    # print rango0
-    # print rango1
-    # print rango2
-    # print rango3
-    # print rango4
-    # print rango5
-
-    # Mientras el valor sea  mas pequeno, sera mas morado.
-    # Mientras el valor de altura sea mas alto, sera mas rojo
-    counter=0
-    for element in OcupacionPorcentual:
-
-        color.append(OcupacionPorcentual[counter])
-        # if element >= rango0 and element < rango1:
-        #     color.append(10)
-        # if element >= rango1 and element < rango2:
-        #     color.append(30)
-        # if element >= rango2 and element < rango3:
-        #     color.append(50)
-        # if element >= rango3 and element < rango4:
-        #     color.append(70)
-        # if element >= rango4 and element <= rango5:
-        #     color.append(90)
-        counter=counter+1
+    for EdgePair in ListOfEdges:
+        G.add_edge(EdgePair[0], EdgePair[1],color=EdgePair[2])
 
 
-    #print color
 
-    nx.draw_networkx(G, pos, node_size=150, node_color=color)
-    plt.title('Bicing network classified according to occupation')
+    #nx.draw_networkx(G, pos, node_size=150,edge_color=ListOfWeights)
+    edges = G.edges()
+    colores = [G[u][v]['color'] for u, v in edges]
+    nx.draw(G, pos, edges=edges, edge_color=colores, node_color='blue',node_size=100,font_size=8)
+    #nx.draw(G,pos,edge_color=ListOfWeights)
+    plt.title('Bicing network - Weighted links')
     plt.colorbar()
     plt.show()
 
