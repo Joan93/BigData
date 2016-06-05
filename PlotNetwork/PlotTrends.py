@@ -56,6 +56,7 @@ for file in files:
     #print ListOfBicycles
     #print ListOfTimes
 
+
     for element in ListOfTimes:
         dia,slot=divmod(element,1000)
         minute=slot*3
@@ -81,6 +82,6 @@ for file in files:
     plt.gcf().autofmt_xdate()
     plt.title(file)
     plt.grid()
-    plt.savefig("/home/ns3/Documents/BicingProject/BigData/PlotNetwork/StationGraphs/Bicycle_usage_"+file +".png")
+    plt.savefig("/home/ns3/Documents/BicingProject/BigData/PlotNetwork/StationGraphs/BIGBicycle_usage_"+file +".png")
     print "File " +file+".png saved"
     plt.close()    #plt.show()
