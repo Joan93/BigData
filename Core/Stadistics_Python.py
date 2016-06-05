@@ -23,40 +23,52 @@ InputFile = conf.data_process_folder_superfile_file_data
 InputFile_header = conf.data_process_folder_superfile_file_header
 Stadistics_Folder=conf.data_process_stadistics_folder
 
-def savestadistics(dictstat,day):
+def savestadistics(dictstat,day,bool):
+    if(bool):
+        date = datetime.datetime.fromtimestamp(dictstat['init_time'])
+        namefile=date.strftime('%j')+"_"+str(dictstat['init_time'])+".stad"
 
-    date = datetime.datetime.fromtimestamp(dictstat['init_time'])
-    namefile=date.strftime('%j')+"_"+str(dictstat['init_time'])+".stad"
+    else:
+        if(day==-1):
+            tipo="working"
+        elif(day==-2):
+            tipo="weekend"
+        else:
+            tipo="all"
+
+        namefile="Total_"+tipo+"_"+str(dictstat['init_time'])+".stad"
+
     print "Created: "+namefile
-
     with open(conf.data_process_stadistics_folder+namefile, 'w+') as outfile:
 
         line=str(dictstat['init_time'])+";"+str(dictstat['end_time'])+";"+str(day)
-        outfile.write(line)
-
-        line=""
-        primercon=True
-        for slot_day_mean in dictstat['slot_day_mean']:
-
-            if(primercon):
-                line+=str(slot_day_mean)
-                primercon=False
-            else:
-                line+=" "+str(slot_day_mean)
         line+="\n"
         outfile.write(line)
 
-        line=""
-        primercon=True
-        for slot_day_var in dictstat['slot_day_var']:
+        if(bool):
+            line=""
+            primercon=True
+            for slot_day_mean in dictstat['slot_day_mean']:
 
-            if(primercon):
-                line+=str(slot_day_var)
-                primercon=False
-            else:
-                line+=" "+str(slot_day_var)
-        line+="\n"
-        outfile.write(line)
+                if(primercon):
+                    line+=str(slot_day_mean)
+                    primercon=False
+                else:
+                    line+=" "+str(slot_day_mean)
+            line+="\n"
+            outfile.write(line)
+
+            line=""
+            primercon=True
+            for slot_day_var in dictstat['slot_day_var']:
+
+                if(primercon):
+                    line+=str(slot_day_var)
+                    primercon=False
+                else:
+                    line+=" "+str(slot_day_var)
+            line+="\n"
+            outfile.write(line)
 
         line=""
         primercon=True
@@ -81,7 +93,7 @@ def savestadistics(dictstat,day):
                 line+=" "+str(stations_var_day)
         line+="\n"
         outfile.write(line)
-        line=str(dictstat['day_mean'])+";"+str(dictstat['day_var'])
+        line=str(dictstat['day_mean'])+" "+str(dictstat['day_var'])
         line+="\n"
         outfile.write(line)
 
@@ -92,7 +104,10 @@ def savestadistics(dictstat,day):
 
 def run_main():
 
+    daydata = []
     matrixdata = []
+    weekdaydata = []
+    weekenddaydata = []
     header_vector = []
     step_matrix = []
     stadistics_matrix = []
@@ -142,7 +157,7 @@ def run_main():
                 old_day=dia
                 end_time = arraydata[0]
                 print init_time
-                step_matrix.append([counter,init_time,end_time])
+                step_matrix.append([counter,init_time,end_time,dia])
                 day+=1
 
             counter+=1
@@ -161,32 +176,48 @@ def run_main():
             arraydata =  np.array(line.split(" "), dtype=int)
 
             if(primero):
+                daydata=arraydata
                 matrixdata=arraydata
                 primero=False
             else:
+                daydata=np.vstack((daydata,arraydata))
                 matrixdata=np.vstack((matrixdata,arraydata))
+
+
+            if(step_matrix[day][3]<5):
+                if (len(weekdaydata)==0):
+                    weekdaydata=arraydata
+                else:
+                    weekdaydata=np.vstack((weekdaydata,arraydata))
+
+
+            if(step_matrix[day][3]>4):
+                if (len(weekenddaydata)==0):
+                    weekenddaydata=arraydata
+                else:
+                    weekenddaydata=np.vstack((weekenddaydata,arraydata))
 
             if(counter==step_matrix[day][0]):
                 #Make stadistics
 
                 #mean sigma by row , all stations in the slot
-                slot_day_mean=matrixdata.mean(axis=1)
-                slot_day_var=matrixdata.var(axis=1)
+                slot_day_mean=daydata.mean(axis=1)
+                slot_day_var=daydata.var(axis=1)
 
                 #mean sigma by column , one stations in one day
-                stations_mean_day=matrixdata.mean(axis=0)
-                stations_var_day=matrixdata.var(axis=0)
+                stations_mean_day=daydata.mean(axis=0)
+                stations_var_day=daydata.var(axis=0)
 
                 #all stations all day slots
-                day_mean=matrixdata.mean()
-                day_var=matrixdata.var()
+                day_mean=daydata.mean()
+                day_var=daydata.var()
 
                 dictstat = {'init_time':step_matrix[day][1], 'end_time': step_matrix[day][2], 'slot_day_mean': slot_day_mean,\
                             'slot_day_var': slot_day_var,'stations_mean_day': stations_mean_day, 'stations_var_day': stations_var_day,\
                             'day_mean': day_mean,'day_var': day_var}
 
                 #stadistics_matrix.append(dictstat)
-                savestadistics(dictstat,day)
+                savestadistics(dictstat,day,True)
                 dictstat ={}
                 day+=1
                 primero=True
@@ -197,3 +228,52 @@ def run_main():
 
 
     f.close()
+
+    #*Stadistics working day
+
+    #mean sigma by column , one stations in one day
+    all_stations_mean_day=weekdaydata.mean(axis=0)
+    all_stations_var_day=weekdaydata.var(axis=0)
+
+    #all stations all day slots
+    all_days_mean=weekdaydata.mean()
+    all_days_var=weekdaydata.var()
+
+    dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
+                'day_mean': all_days_mean,'day_var': all_days_var}
+
+    savestadistics(dictstat,-1,False)
+
+    dictstat ={}
+
+    #*Stadistics weekend day
+
+    #mean sigma by column , one stations in one day
+    all_stations_mean_day=weekenddaydata.mean(axis=0)
+    all_stations_var_day=weekenddaydata.var(axis=0)
+
+    #all stations all day slots
+    all_days_mean=weekenddaydata.mean()
+    all_days_var=weekenddaydata.var()
+
+    dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
+                'day_mean': all_days_mean,'day_var': all_days_var}
+
+    savestadistics(dictstat,-2,False)
+    dictstat ={}
+
+    #*All stadistics
+    #mean sigma by column , one stations in one day
+    all_stations_mean_day=matrixdata.mean(axis=0)
+    all_stations_var_day=matrixdata.var(axis=0)
+
+    #all stations all day slots
+    all_days_mean=matrixdata.mean()
+    all_days_var=matrixdata.var()
+
+    dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
+                'day_mean': all_days_mean,'day_var': all_days_var}
+
+    savestadistics(dictstat,-3,False)
+
+

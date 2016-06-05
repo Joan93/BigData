@@ -100,6 +100,6 @@ if(conf.spark_use):
 #mostrar datos
 
 #estadisticas de datos
-#Stadistics.run_main()
+Stadistics.run_main()
 
 
