@@ -83,7 +83,9 @@ def run_main():
                 vector = np.append(vector, bikes)
 
         #Write Time vector for all ID in file
-        fw = open(data_process_folder_superfile+"superfile.dat","a+")
+        fw = open(conf.data_process_folder_superfile_file_data,"a+")
+        #Write header data file
+        fw2 = open(conf.data_process_folder_superfile_file_header,"a+")
         line=""
 
         #print vector
@@ -95,14 +97,17 @@ def run_main():
             else:
                 line+=" "+str(x)
 
-        line = str(timestamp)+";"+str(pseudotime)+" "+str(line)+"\n"
+        #line = str(timestamp)+";"+str(pseudotime)+" "+str(line)+"\n"
+        line = str(line)+"\n"
+        fw2.write(str(timestamp)+";"+str(pseudotime)+"\n")
+        fw2.close()
         fw.write(line)
         fw.close()
 
     import fileinput
     files = [f for f in os.listdir(data_process_folder_station) if f.endswith(".dat")]
     files.sort(key=natural_keys)
-    with open(data_process_folder_superfile+"superstationfile.dat", 'w') as outfile:
+    with open(conf.data_process_folder_superfile_filestation, 'w') as outfile:
         for fname in files:
             #print fname
             with open(data_process_folder_station+fname) as infile:

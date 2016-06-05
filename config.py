@@ -15,7 +15,7 @@ import os
 
 # Software Visibility
 log_error=True # if the programe save the error in a file
-verbose=True # if the program show in screen the status information of the data or process
+verbose=False# if the program show in screen the status information of the data or process
 mode_test=True #try to check some test at init of the program
 spark_use=False
 
@@ -59,6 +59,9 @@ data_process_file_vector_error=data_process_folder+"vector_data_error.txt"
 # *Super Files subfolder in Process Data
 superfile="SuperFile/"
 data_process_folder_superfile = data_process_folder+superfile
+data_process_folder_superfile_filestation = data_process_folder_superfile+"superstationfile.dat"
+data_process_folder_superfile_file_header = data_process_folder_superfile+"superfile_header.dat"
+data_process_folder_superfile_file_data = data_process_folder_superfile+"superfile.dat"
 superstation="Station/"
 data_process_folder_station = data_process_folder+superstation
 

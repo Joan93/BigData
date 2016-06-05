@@ -59,6 +59,7 @@ import Core.GetTrafficMatrix_on_distance as AdjacentMatrixDistance
 import Core.AdjMatrix_Analisys as Analy
 import Core.WeightMatrix as Weightgen
 import Core.WeightMatrix_adj as WeightgenAdj
+import Core.Stadistics_Python as Stadistics
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main(False)
 
@@ -84,16 +85,17 @@ if(conf.spark_use):
 # AdjacentMatrixDistance.run_main(1000)
 
 #weight matrix
-Weightgen.run_main()
-WeightgenAdj.run_main(300)
-WeightgenAdj.run_main(1000)
-WeightgenAdj.run_main(500)
-WeightgenAdj.run_main(-1)
+# Weightgen.run_main()
+# WeightgenAdj.run_main(300)
+# WeightgenAdj.run_main(1000)
+# WeightgenAdj.run_main(500)
+# WeightgenAdj.run_main(-1)
 #Process SuperFiles
-#CreateSuperFiles.run_main()
+CreateSuperFiles.run_main()
 
 #mostrar datos
 
 #estadisticas de datos
+#Stadistics.run_main()
 
 
