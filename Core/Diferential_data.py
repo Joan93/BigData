@@ -114,19 +114,24 @@ def run_main():
     # Auto-run Pycharm/python to Spark
     import matplotlib.pyplot as plt
 
+    print "empezando hacer graficas"
+    plt.close("all")
+
     plt.rc('xtick', labelsize=6)
 
     #print "plot primera semana"
     semana=0
     estacion=0
-    for estacion in range(0,superfile.shape[1]):
+    for estacion in range(0,50):
+        print "GRafica: "+str(estacion)
         fig,axarr=plt.subplots(2, sharex=True)
         fig.set_size_inches(90, 15)
         fig.suptitle('Station '+str(estacion), fontsize=22, fontweight='bold')
         axarr[0].set_title('Bikes')
         axarr[1].set_title('Delta Bikes')
 
-        for semana in range(0,len(week_vector)/3):
+        #len(week_vector)/3
+        for semana in range(0,4):
             vector_x=week_vector[semana][0][0]
             vector_string_x=week_vector[semana][0][1]
             vector_y=week_vector[semana][1][:,estacion]
@@ -138,6 +143,7 @@ def run_main():
             axarr[1].plot(vector_x,vector_y)
 
         fig.savefig(data_process_folder_plots+str(estacion)+'.jpg',dpi = 100)
+        plt.close("all")
     #plt.show()
 
 

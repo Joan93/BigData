@@ -23,8 +23,8 @@ InputFile = conf.data_process_folder_superfile_file_data
 InputFile_header = conf.data_process_folder_superfile_file_header
 Stadistics_Folder=conf.data_process_stadistics_folder
 
-def savestadistics(dictstat,day,bool):
-    if(bool):
+def savestadistics(dictstat,day,type):
+    if(type==0):
         date = datetime.datetime.fromtimestamp(dictstat['init_time'])
         namefile=date.strftime('%j')+"_"+str(dictstat['init_time'])+".stad"
 
@@ -45,7 +45,7 @@ def savestadistics(dictstat,day,bool):
         line+="\n"
         outfile.write(line)
 
-        if(bool):
+        if(type==0 or type==2):
             line=""
             primercon=True
             for slot_day_mean in dictstat['slot_day_mean']:
@@ -156,7 +156,7 @@ def run_main():
                 primero_init=True
                 old_day=dia
                 end_time = arraydata[0]
-                print init_time
+                #print init_time
                 step_matrix.append([counter,init_time,end_time,dia])
                 day+=1
 
@@ -217,7 +217,7 @@ def run_main():
                             'day_mean': day_mean,'day_var': day_var}
 
                 #stadistics_matrix.append(dictstat)
-                savestadistics(dictstat,day,True)
+                savestadistics(dictstat,day,0)
                 dictstat ={}
                 day+=1
                 primero=True
@@ -242,7 +242,7 @@ def run_main():
     dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
                 'day_mean': all_days_mean,'day_var': all_days_var}
 
-    savestadistics(dictstat,-1,False)
+    savestadistics(dictstat,-1,1)
 
     dictstat ={}
 
@@ -259,10 +259,13 @@ def run_main():
     dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
                 'day_mean': all_days_mean,'day_var': all_days_var}
 
-    savestadistics(dictstat,-2,False)
+    savestadistics(dictstat,-2,1)
     dictstat ={}
 
     #*All stadistics
+    #mean sigma by row , all stations in the slot
+    all_slot_day_mean=matrixdata.mean(axis=1)
+    all_slot_day_var=matrixdata.var(axis=1)
     #mean sigma by column , one stations in one day
     all_stations_mean_day=matrixdata.mean(axis=0)
     all_stations_var_day=matrixdata.var(axis=0)
@@ -271,9 +274,12 @@ def run_main():
     all_days_mean=matrixdata.mean()
     all_days_var=matrixdata.var()
 
-    dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2], 'stations_mean_day': all_stations_mean_day, 'stations_var_day': all_stations_var_day,\
-                'day_mean': all_days_mean,'day_var': all_days_var}
+    dictstat = {'init_time':step_matrix[0][1], 'end_time': step_matrix[day-1][2],'slot_day_mean': all_slot_day_mean, \
+                'slot_day_var': all_slot_day_var, 'stations_mean_day': all_stations_mean_day, \
+                'stations_var_day': all_stations_var_day, 'day_mean': all_days_mean,'day_var': all_days_var}
 
-    savestadistics(dictstat,-3,False)
+    savestadistics(dictstat,-3,2)
+
+
 
 

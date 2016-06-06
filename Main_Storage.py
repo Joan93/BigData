@@ -63,7 +63,7 @@ import Core.Stadistics_Python as Stadistics
 import Core.Diferential_data as SuperFile_dif_graphs
 
 #Process the Json storage to compact in a historical data files
-#ProcessJson.run_main(False)
+# ProcessJson.run_main(False)
 
 #Prematrix process
 # ProcessJson_fixmatrix.run_main()
@@ -71,8 +71,8 @@ import Core.Diferential_data as SuperFile_dif_graphs
 #Prematri
 
 #Process static matrix
-if(conf.spark_use):
-    fix_error.fix()
+# if(conf.spark_use):
+#     fix_error.fix()
 
 #Distance, Height, inclination matrix
 # DHI_matrix.run_main()
@@ -83,7 +83,7 @@ if(conf.spark_use):
 #Create Adjacent matrix based on neighbours distance
 # AdjacentMatrixDistance.run_main(500)
 # AdjacentMatrixDistance.run_main(300)
-# #Analy.run_main(conf.data_process_file_adjacentmatrix_distance_300)
+#Analy.run_main(conf.data_process_file_adjacentmatrix_distance_300)
 # AdjacentMatrixDistance.run_main(1000)
 
 #weight matrix
@@ -95,11 +95,11 @@ if(conf.spark_use):
 
 #Process SuperFiles
 # CreateSuperFiles.run_main()
-SuperFile_dif_graphs.run_main()
+# SuperFile_dif_graphs.run_main()
 
 #mostrar datos
 
 #estadisticas de datos
-#Stadistics.run_main()
+Stadistics.run_main()
 
 
