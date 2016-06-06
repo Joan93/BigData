@@ -122,16 +122,16 @@ def run_main():
     #print "plot primera semana"
     semana=0
     estacion=0
-    for estacion in range(0,50):
+    for estacion in range(0,superfile.shape[1]):
         print "GRafica: "+str(estacion)
         fig,axarr=plt.subplots(2, sharex=True)
-        fig.set_size_inches(90, 15)
+        fig.set_size_inches(100, 15)
         fig.suptitle('Station '+str(estacion), fontsize=22, fontweight='bold')
         axarr[0].set_title('Bikes')
         axarr[1].set_title('Delta Bikes')
 
         #len(week_vector)/3
-        for semana in range(0,4):
+        for semana in range(0,len(week_vector)):
             vector_x=week_vector[semana][0][0]
             vector_string_x=week_vector[semana][0][1]
             vector_y=week_vector[semana][1][:,estacion]

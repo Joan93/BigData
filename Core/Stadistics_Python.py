@@ -280,6 +280,73 @@ def run_main():
 
     savestadistics(dictstat,-3,2)
 
+    import math
+
+    vector_y_plus2sigma=[]
+    vector_y_less2sigma=[]
+    vector_y_mean=[]
+    vector_y_mean_Total=[]
+    vector_y_Total_plus2sigma=[]
+    vector_y__Totaless2sigmal=[]
+    vector_x=range(0,len(all_slot_day_mean))
+
+    for slot in range(0,len(all_slot_day_mean)):
+        print "slot: "+str(slot)+" mean: "+str(all_slot_day_mean[slot])+ " - sigma: "+str(math.sqrt(all_slot_day_var[slot]))
+        vector_y_mean.append(all_slot_day_mean[slot])
+        vector_y_plus2sigma.append(all_slot_day_mean[slot]+math.sqrt(all_slot_day_var[slot]))
+        vector_y_less2sigma.append(all_slot_day_mean[slot]-math.sqrt(all_slot_day_var[slot]))
+        vector_y_mean_Total.append(all_days_mean)
+
+    import matplotlib.pyplot as plt
+
+    print "empezando hacer graficas"
+    plt.close("all")
+    plt.rc('xtick', labelsize=8)
+
+    fig=plt.figure()
+    fig.set_size_inches(20, 8)
+    fig.suptitle('Mean Bike in Bicing ', fontsize=22, fontweight='bold')
+
+    plt.plot(vector_x,vector_y_mean,'b')
+    plt.plot(vector_x,vector_y_mean_Total,'g')
+    plt.plot(vector_x,vector_y_plus2sigma,'r--')
+    plt.plot(vector_x,vector_y_less2sigma,'r--')
+
+
+    fig.savefig('Memoria_data.jpg',dpi = 100)
+    plt.show()
+
+    plt.close("all")
+    plt.rc('xtick', labelsize=8)
+
+    fig=plt.figure()
+    fig.set_size_inches(20, 8)
+
+
+    fig.suptitle('Mean Bike in Station ', fontsize=22, fontweight='bold')
+
+    vector_y_plus2sigma=[]
+    vector_y_less2sigma=[]
+    vector_y_mean=[]
+    vector_x=range(0,len(all_stations_mean_day))
+
+    for slot in range(0,len(all_stations_mean_day)):
+        print "slot: "+str(slot)+" mean: "+str(all_stations_mean_day[slot])+ " - sigma: "+str(math.sqrt(all_stations_var_day[slot]))
+        vector_y_mean.append(all_stations_mean_day[slot])
+        vector_y_plus2sigma.append(all_stations_mean_day[slot]+math.sqrt(all_stations_var_day[slot]))
+        vector_y_less2sigma.append(all_stations_mean_day[slot]-math.sqrt(all_stations_var_day[slot]))
+        vector_y_mean_Total.append(all_days_mean)
+
+
+
+    plt.plot(vector_x,vector_y_mean,'b')
+    plt.plot(vector_x,vector_y_mean_Total,'g')
+    plt.plot(vector_x,vector_y_plus2sigma,'r--')
+    plt.plot(vector_x,vector_y_less2sigma,'r--')
+
+
+    fig.savefig('Memoria_data_stations.jpg',dpi = 100)
+    plt.show()
 
 
 

@@ -95,11 +95,11 @@ import Core.Diferential_data as SuperFile_dif_graphs
 
 #Process SuperFiles
 # CreateSuperFiles.run_main()
-# SuperFile_dif_graphs.run_main()
+SuperFile_dif_graphs.run_main()
 
 #mostrar datos
 
 #estadisticas de datos
-Stadistics.run_main()
+#Stadistics.run_main()
 
 
