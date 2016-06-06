@@ -64,6 +64,8 @@ data_process_folder_superfile_file_header = data_process_folder_superfile+"super
 data_process_folder_superfile_file_data = data_process_folder_superfile+"superfile.dat"
 superstation="Station/"
 data_process_folder_station = data_process_folder+superstation
+plots="Station_plot/"
+data_process_folder_plots = data_process_folder+plots
 
 
 # *Distance Matrix File

@@ -11,14 +11,18 @@ data_folder = "Data/"
 data_process_folder = "Process_Data/RDD/"
 
 # Auto-run Pycharm/python to Spark
-import sys
-import os
-import datetime
+import matplotlib.pyplot as plt
 
-your_timestamp = 1458215648
-date = datetime.datetime.fromtimestamp(your_timestamp)
-print date
 
-day_of_year = date.strftime('%j')
+print "demo plto by Rodrigo"
 
-print day_of_year
+vector_x=range(0,10)
+vector_string_x=["2^0","2^1","2^2","2^3","2^4","2^5","2^6","2^7","2^8","2^9","2^10"]
+vector_y=[1,2,4,8,16,32,64,128,512,1024]
+
+print  vector_x
+print  vector_y
+
+plt.xticks(vector_x, vector_string_x)
+plt.plot(vector_x,vector_y)
+plt.show()

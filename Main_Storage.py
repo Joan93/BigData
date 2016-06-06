@@ -60,7 +60,7 @@ import Core.AdjMatrix_Analisys as Analy
 import Core.WeightMatrix as Weightgen
 import Core.WeightMatrix_adj as WeightgenAdj
 import Core.Stadistics_Python as Stadistics
-import Core.Diferential_data as SuperFile_dirivate
+import Core.Diferential_data as SuperFile_dif_graphs
 
 #Process the Json storage to compact in a historical data files
 #ProcessJson.run_main(False)
@@ -95,11 +95,11 @@ if(conf.spark_use):
 
 #Process SuperFiles
 # CreateSuperFiles.run_main()
-#SuperFile_dirivate.run_main()
+SuperFile_dif_graphs.run_main()
 
 #mostrar datos
 
 #estadisticas de datos
-Stadistics.run_main()
+#Stadistics.run_main()
 
 
