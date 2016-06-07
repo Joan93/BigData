@@ -167,6 +167,7 @@ def run_main():
 
     f.close()
 
+    unico=True
     primero=True
     counter=0
     day=0
@@ -177,7 +178,9 @@ def run_main():
 
             if(primero):
                 daydata=arraydata
-                matrixdata=arraydata
+                if(unico):
+                    matrixdata=arraydata
+                    unico=False
                 primero=False
             else:
                 daydata=np.vstack((daydata,arraydata))
@@ -282,6 +285,12 @@ def run_main():
 
     import math
 
+    print "****** Se hae bien"
+    print "dimensiones de matrix "+str(matrixdata.shape[0])
+    print "dimensiones de matrix "+str(matrixdata.shape[1])
+    print "dimensiones de variable "+str(all_slot_day_mean.shape[0])
+
+
     vector_y_plus2sigma=[]
     vector_y_less2sigma=[]
     vector_y_mean=[]
@@ -296,6 +305,8 @@ def run_main():
         vector_y_plus2sigma.append(all_slot_day_mean[slot]+math.sqrt(all_slot_day_var[slot]))
         vector_y_less2sigma.append(all_slot_day_mean[slot]-math.sqrt(all_slot_day_var[slot]))
         vector_y_mean_Total.append(all_days_mean)
+        vector_y_Total_plus2sigma.append(all_days_mean+math.sqrt(all_days_var))
+        vector_y__Totaless2sigmal.append(all_days_mean-math.sqrt(all_days_var))
 
     import matplotlib.pyplot as plt
 
@@ -311,6 +322,8 @@ def run_main():
     plt.plot(vector_x,vector_y_mean_Total,'g')
     plt.plot(vector_x,vector_y_plus2sigma,'r--')
     plt.plot(vector_x,vector_y_less2sigma,'r--')
+    plt.plot(vector_x,vector_y_Total_plus2sigma,'y--')
+    plt.plot(vector_x,vector_y__Totaless2sigmal,'y--')
 
 
     fig.savefig('Memoria_data.jpg',dpi = 100)
@@ -328,6 +341,9 @@ def run_main():
     vector_y_plus2sigma=[]
     vector_y_less2sigma=[]
     vector_y_mean=[]
+    vector_y_mean_Total=[]
+    vector_y_Total_plus2sigma=[]
+    vector_y__Totaless2sigmal=[]
     vector_x=range(0,len(all_stations_mean_day))
 
     for slot in range(0,len(all_stations_mean_day)):
@@ -336,6 +352,8 @@ def run_main():
         vector_y_plus2sigma.append(all_stations_mean_day[slot]+math.sqrt(all_stations_var_day[slot]))
         vector_y_less2sigma.append(all_stations_mean_day[slot]-math.sqrt(all_stations_var_day[slot]))
         vector_y_mean_Total.append(all_days_mean)
+        vector_y_Total_plus2sigma.append(all_days_mean+math.sqrt(all_days_var))
+        vector_y__Totaless2sigmal.append(all_days_mean-math.sqrt(all_days_var))
 
 
 
@@ -343,6 +361,8 @@ def run_main():
     plt.plot(vector_x,vector_y_mean_Total,'g')
     plt.plot(vector_x,vector_y_plus2sigma,'r--')
     plt.plot(vector_x,vector_y_less2sigma,'r--')
+    plt.plot(vector_x,vector_y_Total_plus2sigma,'y--')
+    plt.plot(vector_x,vector_y__Totaless2sigmal,'y--')
 
 
     fig.savefig('Memoria_data_stations.jpg',dpi = 100)
